@@ -30,9 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void startListActivity(View view) {
         Log.d(TAG, "Go to the list activity");
-        /*
         Intent messageIntent = new Intent(this, ListActivity.class);
         startActivity(messageIntent);
-         */
     }
 }

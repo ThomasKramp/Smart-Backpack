@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SmartBackpack</string>
+    <string name="moistureSensor">Moisture Sensor</string>
 </resources>

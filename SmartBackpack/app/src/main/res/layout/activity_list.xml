@@ -6,6 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".ListActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_scroller"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/list_add_button"
+        app:layout_constraintTop_toTopOf="parent">
 
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/list_add_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Add Item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_scroller" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Remove Item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/list_add_button"
+        app:layout_constraintTop_toBottomOf="@+id/list_scroller" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SmartBackpack</string>
+    <string name="check_list">Check List</string>
+    <string name="check_moisture">Check Moisture</string>
+    <string name="check_weight">Check Weight</string>
+    <string name="title">Smart Backpack</string>
 </resources>

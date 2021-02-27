@@ -1,5 +1,6 @@
 package com.example.smartbackpack.List;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
         holder.mNameView.setText(vItemNames[position]);
-        holder.mAmountView.setText(vItemAmounts[position]);
+        holder.mAmountView.setText(String.valueOf(vItemAmounts[position]));
         holder.mImageView.setImageResource(R.drawable.ic_launcher_foreground);
     }
 

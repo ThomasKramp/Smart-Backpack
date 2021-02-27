@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SmartBackpack</string>
+    <string name="MeasureWeight">Measure Weight</string>
+    <string name="MeasuredData" />
 </resources>

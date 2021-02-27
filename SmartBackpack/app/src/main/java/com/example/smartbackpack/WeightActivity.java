@@ -23,10 +23,10 @@ public class WeightActivity extends AppCompatActivity
 
     public void measureData(View view)
     {
-        ShowMeasurement.setText(RandomWeight(view));
+        ShowMeasurement.setText(randomWeight(view));
     }
 
-    public String RandomWeight(View view)
+    public String randomWeight(View view)
     {
         int min = 2;
         int max = 35;

@@ -10,7 +10,7 @@
         android:id="@+id/MeasureWeightButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/MeasureWeight"
+        android:text="@string/measure_weight"
         android:onClick="measureData"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,8 +20,9 @@
         android:id="@+id/MeasuredData"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/MeasuredData"
+        android:text="@string/measured_data"
         app:layout_constraintBottom_toTopOf="@+id/MeasureWeightButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

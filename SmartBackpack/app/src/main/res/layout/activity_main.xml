@@ -24,7 +24,7 @@
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/buttonMoisture"
+        android:id="@+id/moistureButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -39,7 +39,7 @@
 
 
     <Button
-        android:id="@+id/buttonPosture"
+        android:id="@+id/weightButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -50,7 +50,7 @@
         android:onClick="startWeightActivity"/>
 
     <Button
-        android:id="@+id/buttonList"
+        android:id="@+id/listButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"

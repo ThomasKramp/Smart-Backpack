@@ -9,34 +9,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        
-        <activity android:name=".ListActivity"
+
+        <activity
+            android:name=".ListActivity"
             android:label="List Activity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"
-            />
+                android:value=".MainActivity" />
         </activity>
-      
-        <activity android:name=".WeightActivity"
+
+        <activity
+            android:name=".WeightActivity"
             android:label="Weight Activity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"
-            />
+                android:value=".MainActivity" />
         </activity>
 
-        <activity android:name=".MoistureActivity"
+        <activity
+            android:name=".MoistureActivity"
             android:label="Moisture Activity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".MainActivity" />
 
         </activity>
-          
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

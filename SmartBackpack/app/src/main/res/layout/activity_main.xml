@@ -33,7 +33,10 @@
         android:layout_marginBottom="32dp"
         android:width="150dp"
         android:height="50dp"
-        android:text="@string/check_moisture" />
+        android:text="@string/check_moisture"
+        android:onClick="startMoistureActivity"/>
+
+
 
     <Button
         android:id="@+id/buttonPosture"
@@ -43,7 +46,8 @@
         android:layout_marginRight="8dp"
         android:width="150dp"
         android:height="50dp"
-        android:text="@string/check_weight" />
+        android:text="@string/check_weight"
+        android:onClick="startWeightActivity"/>
 
     <Button
         android:id="@+id/buttonList"
@@ -54,6 +58,7 @@
         android:layout_marginRight="8dp"
         android:width="150dp"
         android:height="50dp"
-        android:text="@string/check_list" />
+        android:text="@string/check_list"
+        android:onClick="startListActivity" />
 
 </LinearLayout>

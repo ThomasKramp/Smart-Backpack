@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">SmartBackpack</string>
+    <string name="MeasureWeight">Measure Weight</string>
+    <string name="MeasuredData"/>
+    <string name="moistureSensor">Moisture Sensor</string>
     <string name="check_list">Check List</string>
     <string name="check_moisture">Check Moisture</string>
     <string name="check_weight">Check Weight</string>

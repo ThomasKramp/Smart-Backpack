@@ -18,18 +18,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void startMoistureActivity(View view) {
         Log.d(TAG, "Go to the moisture activity");
-        /*
         Intent messageIntent = new Intent(this, MoistureActivity.class);
         startActivity(messageIntent);
-         */
     }
 
     public void startWeightActivity(View view) {
         Log.d(TAG, "Go to the weight activity");
-        /*
         Intent messageIntent = new Intent(this, WeightActivity.class);
         startActivity(messageIntent);
-         */
     }
 
     public void startListActivity(View view) {

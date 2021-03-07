@@ -75,7 +75,10 @@ public class ListActivity extends AppCompatActivity {
         for (ListItem item: items) {
             if (item.getName().equals(name)) index = items.indexOf(item);
         }
-        if (index >= 0) mAdapter.notifyItemRemoved(index);
+        if (index >= 0) {
+            items.remove(index);
+            mAdapter.notifyItemRemoved(index);
+        }
         else Toast.makeText(this, name + " not in list", Toast.LENGTH_LONG).show();
     }
 }

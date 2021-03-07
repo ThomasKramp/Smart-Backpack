@@ -29,12 +29,14 @@ public class ListActivity extends AppCompatActivity {
         items.add(new ListItem(R.drawable.ic_launcher_foreground, "Ipsum Ipsum", 8));
 
         mRecyclerView = findViewById(R.id.list_scroller);
-        mAdapter = new ListAdapter(this, items.toArray(new ListItem[items.size()]));
+        mAdapter = new ListAdapter(this, items);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     public void AddItem(View view) {
+        items.add(new ListItem(R.drawable.ic_launcher_foreground, "Pants", 4));
+        mAdapter.notifyItemInserted(items.size());
     }
 
     public void RemoveItem(View view) {

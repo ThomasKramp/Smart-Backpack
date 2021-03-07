@@ -11,13 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smartbackpack.ListActivity;
 import com.example.smartbackpack.R;
 
+import java.util.ArrayList;
+
 public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
-    private ListItem[] items;
+    private ArrayList<ListItem> items;
 
     LayoutInflater mInflater;
 
-    public ListAdapter(ListActivity listActivity, ListItem[] items) {
+    public ListAdapter(ListActivity listActivity, ArrayList<ListItem> items) {
         mInflater = LayoutInflater.from(listActivity);
         this.items = items;
     }
@@ -31,11 +33,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
-        holder.mNameView.setText(items[position].getName());
-        holder.mAmountView.setText(String.valueOf(items[position].getAmount()));
-        holder.mImageView.setImageResource(items[position].getImageResource());
+        ListItem currentItem = items.get(position);
+        holder.mNameView.setText(currentItem.getName());
+        holder.mAmountView.setText(String.valueOf(currentItem.getAmount()));
+        holder.mImageView.setImageResource(currentItem.getImageResource());
     }
 
     @Override
-    public int getItemCount() { return items.length; }
+    public int getItemCount() { return items.size(); }
 }

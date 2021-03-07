@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
     private static final String TAG = "ListActivity";
-    private static final String IntentType = "IntentType";
     public static final int TEXT_REQUEST = 1;
 
     ArrayList<ListItem> items = new ArrayList<>();
@@ -40,14 +39,15 @@ public class ListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    public void AddItem(View view) {
-        items.add(new ListItem(R.drawable.ic_launcher_foreground, "Pants", 4));
-        mAdapter.notifyItemInserted(items.size());
+    public void Add(View view) {
+        Intent intent = new Intent(this, ItemActivity.class);
+        intent.putExtra(ItemActivity.IntentType, "Add Item");
+        startActivityForResult(intent, TEXT_REQUEST);
     }
 
-    public void RemoveItem(View view) {
+    public void Remove(View view) {
         Intent intent = new Intent(this, ItemActivity.class);
-        intent.putExtra(IntentType, "Remove Item");
+        intent.putExtra(ItemActivity.IntentType, "Remove Item");
         startActivityForResult(intent, TEXT_REQUEST);
     }
 
@@ -56,9 +56,26 @@ public class ListActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == TEXT_REQUEST) {
             if (resultCode == RESULT_OK){
-                String reply = data.getStringExtra(ItemActivity.REPLY);
-                Toast.makeText(this, reply, Toast.LENGTH_SHORT).show();
+                String intentType = data.getStringExtra(ItemActivity.IntentType);
+                String name = data.getStringExtra(ItemActivity.Name);
+                Toast.makeText(this, intentType, Toast.LENGTH_SHORT).show();
+                if (intentType.equals("Add Item")) AddItem(name);
+                else RemoveItem(name);
             }
         }
+    }
+
+    public void AddItem(String name) {
+        items.add(new ListItem(R.drawable.ic_launcher_foreground, name, 1));
+        mAdapter.notifyItemInserted(items.size());
+    }
+
+    public void RemoveItem(String name) {
+        int index = -1;
+        for (ListItem item: items) {
+            if (item.getName().equals(name)) index = items.indexOf(item);
+        }
+        if (index >= 0) mAdapter.notifyItemRemoved(index);
+        else Toast.makeText(this, name + " not in list", Toast.LENGTH_LONG).show();
     }
 }

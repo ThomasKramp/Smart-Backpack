@@ -1,19 +1,25 @@
 package com.example.smartbackpack;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.smartbackpack.List.ItemActivity;
 import com.example.smartbackpack.List.ListAdapter;
 import com.example.smartbackpack.List.ListItem;
 
 import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
+    private static final String TAG = "ListActivity";
+    private static final String IntentType = "IntentType";
+    public static final int TEXT_REQUEST = 1;
 
     ArrayList<ListItem> items = new ArrayList<>();
     ListAdapter mAdapter;
@@ -40,5 +46,19 @@ public class ListActivity extends AppCompatActivity {
     }
 
     public void RemoveItem(View view) {
+        Intent intent = new Intent(this, ItemActivity.class);
+        intent.putExtra(IntentType, "Remove Item");
+        startActivityForResult(intent, TEXT_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TEXT_REQUEST) {
+            if (resultCode == RESULT_OK){
+                String reply = data.getStringExtra(ItemActivity.REPLY);
+                Toast.makeText(this, reply, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

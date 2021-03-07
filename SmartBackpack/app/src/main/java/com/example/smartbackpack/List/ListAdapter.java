@@ -13,15 +13,13 @@ import com.example.smartbackpack.R;
 
 public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
-    String[] vItemNames;
-    int[] vItemAmounts;
+    private ListItem[] items;
 
     LayoutInflater mInflater;
 
-    public ListAdapter(ListActivity listActivity, String[] itemNames, int[] itemAmounts) {
+    public ListAdapter(ListActivity listActivity, ListItem[] items) {
         mInflater = LayoutInflater.from(listActivity);
-        vItemNames = itemNames;
-        vItemAmounts = itemAmounts;
+        this.items = items;
     }
 
     @NonNull
@@ -33,11 +31,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
-        holder.mNameView.setText(vItemNames[position]);
-        holder.mAmountView.setText(String.valueOf(vItemAmounts[position]));
-        holder.mImageView.setImageResource(R.drawable.ic_launcher_foreground);
+        holder.mNameView.setText(items[position].getName());
+        holder.mAmountView.setText(String.valueOf(items[position].getAmount()));
+        holder.mImageView.setImageResource(items[position].getImageResource());
     }
 
     @Override
-    public int getItemCount() { return vItemAmounts.length; }
+    public int getItemCount() { return items.length; }
 }

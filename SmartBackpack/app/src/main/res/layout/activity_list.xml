@@ -10,7 +10,7 @@
         android:id="@+id/list_scroller"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/list_add_button"
+        app:layout_constraintBottom_toTopOf="@id/list_add_button"
         app:layout_constraintTop_toTopOf="parent">
 
     </androidx.recyclerview.widget.RecyclerView>
@@ -20,21 +20,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/add_item"
+        android:onClick="AddItem"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@id/list_remove_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list_scroller" />
+        app:layout_constraintTop_toBottomOf="@id/list_scroller" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/list_remove_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/remove_item"
+        android:onClick="RemoveItem"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/list_add_button"
-        app:layout_constraintTop_toBottomOf="@+id/list_scroller" />
+        app:layout_constraintStart_toEndOf="@id/list_add_button"
+        app:layout_constraintTop_toBottomOf="@id/list_scroller" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

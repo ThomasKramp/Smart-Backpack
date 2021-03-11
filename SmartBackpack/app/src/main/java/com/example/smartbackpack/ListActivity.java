@@ -68,34 +68,33 @@ public class ListActivity extends AppCompatActivity {
                 int amount = data.getIntExtra(ItemActivity.Amount, 0);
 
                 if (intentType.equals("Add")) AddItem(index, name, amount);
-                else if (intentType.equals("Edit")) AddItem(index, name, amount);
-                else if (intentType.equals("Remove")) RemoveItem(index, name, amount);
+                else if (intentType.equals("Edit")) EditItem(index, name, amount);
+                else if (intentType.equals("Remove")) RemoveItem(index, name);
             }
         }
     }
 
     public void AddItem(int index, String name, int amount) {
         if (index == -1) index = items.size();
+        if (name.equals("")) name = "No name given";
+        if (amount == 0) amount = 1;
         items.add(index, new ListItem(R.drawable.ic_launcher_foreground, name, amount));
-        mAdapter.notifyItemInserted(items.size());
+        mAdapter.notifyItemInserted(index);
     }
 
     public void EditItem(int index, String name, int amount) {
-        //items.get(1);
-        //items.set(1, new ListItem());
-        for (ListItem item: items) {
-            if (item.getName().equals(name)) index = items.indexOf(item);
-        }
-        if (index >= 0) {
-            items.remove(index);
-            mAdapter.notifyItemRemoved(index);
-        }
-        else Toast.makeText(this, name + " not in list", Toast.LENGTH_LONG).show();
+        ListItem item = items.get(index);
+        if (!name.equals("")) item.setName(name);
+        if (!(amount == 0)) item.setAmount(amount);
+        items.set(index, item);
+        mAdapter.notifyItemChanged(index);
     }
 
-    public void RemoveItem(int index, String name, int amount) {
-        for (ListItem item: items) {
-            if (item.getName().equals(name)) index = items.indexOf(item);
+    public void RemoveItem(int index, String name) {
+        if (!name.equals("") && index == -1) {
+            for (ListItem item: items) {
+                if (item.getName().equals(name)) index = items.indexOf(item);
+            }
         }
         if (index >= 0) {
             items.remove(index);

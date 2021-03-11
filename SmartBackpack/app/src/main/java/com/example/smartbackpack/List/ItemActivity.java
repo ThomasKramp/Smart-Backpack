@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.example.smartbackpack.R;
 
 public class ItemActivity extends AppCompatActivity {
+    private static final String TAG = "ItemActivity";
     public static final String Index = "Index";
     public static final String Name = "Name";
     public static final String Amount = "Amount";
@@ -33,9 +35,26 @@ public class ItemActivity extends AppCompatActivity {
     public void returnReply(View view) {
         Intent replyIntent = new Intent();
         replyIntent.putExtra(IntentType, type);
-        replyIntent.putExtra(Index, Integer.parseInt(mIndexInput.getText().toString()));
-        replyIntent.putExtra(Name, mNameInput.getText().toString());
-        replyIntent.putExtra(Amount, Integer.parseInt(mAmountInput.getText().toString()));
+
+        try {
+            int index = Integer.parseInt(mIndexInput.getText().toString());
+            replyIntent.putExtra(Index, index);
+        } catch (Exception e) {
+            Log.e(TAG, "returnReply: No index given: ", e);
+        }
+        try {
+            String name = mNameInput.getText().toString();
+            replyIntent.putExtra(Name, name);
+        } catch (Exception e) {
+            Log.e(TAG, "returnReply: No name given: ", e);
+        }
+        try {
+            int amount = Integer.parseInt(mAmountInput.getText().toString());
+            replyIntent.putExtra(Amount, amount);
+        } catch (Exception e) {
+            Log.e(TAG, "returnReply: No amount given: ", e);
+        }
+
         setResult(RESULT_OK, replyIntent);
         finish();
     }

@@ -14,4 +14,14 @@ public class ListItem {
     public int getImageResource() { return imageResource; }
     public String getName() { return name; }
     public int getAmount() { return amount; }
+
+    public void setImageResource(int imageResource) {
+        this.imageResource = imageResource;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
 }

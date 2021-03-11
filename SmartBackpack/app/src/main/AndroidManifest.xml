@@ -20,10 +20,10 @@
         <activity
             android:name=".List.ItemActivity"
             android:label="Item Activity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".ListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".ListActivity" />
         </activity>
         <activity
             android:name=".WeightActivity"

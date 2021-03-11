@@ -16,6 +16,9 @@ import com.example.smartbackpack.List.ListItem;
 
 import java.util.ArrayList;
 
+// RecyclerReview Help:
+// https://www.youtube.com/watch?v=17NbUcEts9c&list=PLrnPJCHvNZuBtTYUuc5Pyo4V7xZ2HNtf4&index=4
+
 public class ListActivity extends AppCompatActivity {
     private static final String TAG = "ListActivity";
     public static final int TEXT_REQUEST = 1;
@@ -39,15 +42,15 @@ public class ListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    public void Add(View view) {
+    public void StartAddition(View view) {
         Intent intent = new Intent(this, ItemActivity.class);
-        intent.putExtra(ItemActivity.IntentType, "Add Item");
+        intent.putExtra(ItemActivity.IntentType, "Add");
         startActivityForResult(intent, TEXT_REQUEST);
     }
 
-    public void Remove(View view) {
+    public void StartEdit(View view) {
         Intent intent = new Intent(this, ItemActivity.class);
-        intent.putExtra(ItemActivity.IntentType, "Remove Item");
+        intent.putExtra(ItemActivity.IntentType, "Edit");
         startActivityForResult(intent, TEXT_REQUEST);
     }
 
@@ -57,16 +60,19 @@ public class ListActivity extends AppCompatActivity {
         if (requestCode == TEXT_REQUEST) {
             if (resultCode == RESULT_OK){
                 String intentType = data.getStringExtra(ItemActivity.IntentType);
-                String name = data.getStringExtra(ItemActivity.Name);
                 Toast.makeText(this, intentType, Toast.LENGTH_SHORT).show();
-                if (intentType.equals("Add Item")) AddItem(name);
+
+                String name = data.getStringExtra(ItemActivity.Name);
+                int amount = data.getIntExtra(ItemActivity.Amount, 0);
+
+                if (intentType.equals("Add")) AddItem(name, amount);
                 else RemoveItem(name);
             }
         }
     }
 
-    public void AddItem(String name) {
-        items.add(new ListItem(R.drawable.ic_launcher_foreground, name, 1));
+    public void AddItem(String name, int amount) {
+        items.add(new ListItem(R.drawable.ic_launcher_foreground, name, amount));
         mAdapter.notifyItemInserted(items.size());
     }
 

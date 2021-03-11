@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SmartBackpack</string>
     <string name="measure_weight">Measure Weight</string>
-    <string name="measured_data"/>
+    <string name="measured_data" />
     <string name="moisture_sensor">Moisture Sensor</string>
     <string name="check_list">Check List</string>
     <string name="check_moisture">Check Moisture</string>
@@ -9,4 +9,5 @@
     <string name="title">Smart Backpack</string>
     <string name="add_item">Add Item</string>
     <string name="remove_item">Remove Item</string>
+    <string name="edit_item">Edit Item</string>
 </resources>

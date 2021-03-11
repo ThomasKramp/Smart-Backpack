@@ -11,17 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smartbackpack.ListActivity;
 import com.example.smartbackpack.R;
 
+import java.util.ArrayList;
+
 public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
-    String[] vItemNames;
-    int[] vItemAmounts;
+    private ArrayList<ListItem> items;
 
     LayoutInflater mInflater;
 
-    public ListAdapter(ListActivity listActivity, String[] itemNames, int[] itemAmounts) {
+    public ListAdapter(ListActivity listActivity, ArrayList<ListItem> items) {
         mInflater = LayoutInflater.from(listActivity);
-        vItemNames = itemNames;
-        vItemAmounts = itemAmounts;
+        this.items = items;
     }
 
     @NonNull
@@ -33,11 +33,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
-        holder.mNameView.setText(vItemNames[position]);
-        holder.mAmountView.setText(String.valueOf(vItemAmounts[position]));
-        holder.mImageView.setImageResource(R.drawable.ic_launcher_foreground);
+        ListItem currentItem = items.get(position);
+        holder.mNameView.setText(currentItem.getName());
+        holder.mAmountView.setText(String.valueOf(currentItem.getAmount()));
+        holder.mImageView.setImageResource(currentItem.getImageResource());
     }
 
     @Override
-    public int getItemCount() { return vItemAmounts.length; }
+    public int getItemCount() { return items.size(); }
 }

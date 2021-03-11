@@ -63,22 +63,26 @@ public class ListActivity extends AppCompatActivity {
                 String intentType = data.getStringExtra(ItemActivity.IntentType);
                 Toast.makeText(this, intentType, Toast.LENGTH_SHORT).show();
 
+                int index = data.getIntExtra(ItemActivity.Index, -1);
                 String name = data.getStringExtra(ItemActivity.Name);
                 int amount = data.getIntExtra(ItemActivity.Amount, 0);
 
-                if (intentType.equals("Add")) AddItem(name, amount);
-                else RemoveItem(name);
+                if (intentType.equals("Add")) AddItem(index, name, amount);
+                else if (intentType.equals("Edit")) AddItem(index, name, amount);
+                else if (intentType.equals("Remove")) RemoveItem(index, name, amount);
             }
         }
     }
 
-    public void AddItem(String name, int amount) {
-        items.add(new ListItem(R.drawable.ic_launcher_foreground, name, amount));
+    public void AddItem(int index, String name, int amount) {
+        if (index == -1) index = items.size();
+        items.add(index, new ListItem(R.drawable.ic_launcher_foreground, name, amount));
         mAdapter.notifyItemInserted(items.size());
     }
 
-    public void RemoveItem(String name) {
-        int index = -1;
+    public void EditItem(int index, String name, int amount) {
+        //items.get(1);
+        //items.set(1, new ListItem());
         for (ListItem item: items) {
             if (item.getName().equals(name)) index = items.indexOf(item);
         }
@@ -89,4 +93,14 @@ public class ListActivity extends AppCompatActivity {
         else Toast.makeText(this, name + " not in list", Toast.LENGTH_LONG).show();
     }
 
+    public void RemoveItem(int index, String name, int amount) {
+        for (ListItem item: items) {
+            if (item.getName().equals(name)) index = items.indexOf(item);
+        }
+        if (index >= 0) {
+            items.remove(index);
+            mAdapter.notifyItemRemoved(index);
+        }
+        else Toast.makeText(this, name + " not in list", Toast.LENGTH_LONG).show();
+    }
 }

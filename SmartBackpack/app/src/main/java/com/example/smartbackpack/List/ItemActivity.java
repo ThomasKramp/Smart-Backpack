@@ -10,11 +10,13 @@ import android.widget.EditText;
 import com.example.smartbackpack.R;
 
 public class ItemActivity extends AppCompatActivity {
+    public static final String Index = "Index";
     public static final String Name = "Name";
     public static final String Amount = "Amount";
     public static final String IntentType = "IntentType";
 
     String type = "";
+    EditText mIndexInput;
     EditText mNameInput;
     EditText mAmountInput;
 
@@ -22,6 +24,7 @@ public class ItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
+        mIndexInput = findViewById(R.id.position_input);
         mNameInput = findViewById(R.id.name_input);
         mAmountInput = findViewById(R.id.amount_input);
         type = getIntent().getStringExtra(IntentType);
@@ -30,6 +33,7 @@ public class ItemActivity extends AppCompatActivity {
     public void returnReply(View view) {
         Intent replyIntent = new Intent();
         replyIntent.putExtra(IntentType, type);
+        replyIntent.putExtra(Index, Integer.parseInt(mIndexInput.getText().toString()));
         replyIntent.putExtra(Name, mNameInput.getText().toString());
         replyIntent.putExtra(Amount, Integer.parseInt(mAmountInput.getText().toString()));
         setResult(RESULT_OK, replyIntent);

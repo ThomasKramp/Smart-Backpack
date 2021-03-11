@@ -61,7 +61,7 @@ public class ListActivity extends AppCompatActivity {
         if (requestCode == TEXT_REQUEST) {
             if (resultCode == RESULT_OK){
                 String intentType = data.getStringExtra(ItemActivity.IntentType);
-                Toast.makeText(this, intentType, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, intentType, Toast.LENGTH_SHORT).show();
 
                 int index = data.getIntExtra(ItemActivity.Index, -1);
                 String name = data.getStringExtra(ItemActivity.Name);

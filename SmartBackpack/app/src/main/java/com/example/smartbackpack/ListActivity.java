@@ -42,16 +42,17 @@ public class ListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    public void StartAddition(View view) {
+    public void StartItem(View view) {
         Intent intent = new Intent(this, ItemActivity.class);
-        intent.putExtra(ItemActivity.IntentType, "Add");
+        if (view.getId() == R.id.list_add_button)
+            intent.putExtra(ItemActivity.IntentType, "Add");
+        else if (view.getId() == R.id.list_edit_button)
+            intent.putExtra(ItemActivity.IntentType, "Edit");
+        else if (view.getId() == R.id.list_remove_button)
+            intent.putExtra(ItemActivity.IntentType, "Remove");
+        else Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         startActivityForResult(intent, TEXT_REQUEST);
-    }
 
-    public void StartEdit(View view) {
-        Intent intent = new Intent(this, ItemActivity.class);
-        intent.putExtra(ItemActivity.IntentType, "Edit");
-        startActivityForResult(intent, TEXT_REQUEST);
     }
 
     @Override
@@ -87,4 +88,5 @@ public class ListActivity extends AppCompatActivity {
         }
         else Toast.makeText(this, name + " not in list", Toast.LENGTH_LONG).show();
     }
+
 }

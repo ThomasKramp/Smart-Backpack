@@ -1,16 +1,13 @@
 package com.example.smartbackpack.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.smartbackpack.ListActivity;
 import com.example.smartbackpack.R;
 
 import java.util.ArrayList;

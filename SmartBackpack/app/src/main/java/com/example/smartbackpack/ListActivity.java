@@ -19,6 +19,9 @@ import java.util.ArrayList;
 // RecyclerReview Help:
 // https://www.youtube.com/watch?v=17NbUcEts9c&list=PLrnPJCHvNZuBtTYUuc5Pyo4V7xZ2HNtf4&index=4
 
+// Verander de manier om items te verwijderen en aan te passen.
+// De index moeten meegeven is overtollig
+
 public class ListActivity extends AppCompatActivity {
     private static final String TAG = "ListActivity";
     public static final int TEXT_REQUEST = 1;

@@ -1,11 +1,13 @@
 package com.example.smartbackpack.List;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartbackpack.ListActivity;
@@ -19,7 +21,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
     LayoutInflater mInflater;
 
-    public ListAdapter(ListActivity listActivity, ArrayList<ListItem> items) {
+    public ListAdapter(Context listActivity, ArrayList<ListItem> items) {
         mInflater = LayoutInflater.from(listActivity);
         this.items = items;
     }

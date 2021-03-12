@@ -18,6 +18,7 @@ public class ItemActivity extends AppCompatActivity {
     public static final String Name = "Name";
     public static final String Amount = "Amount";
     public static final String IntentType = "IntentType";
+    public static final int Result_Ok = RESULT_OK;
 
     String type = "";
     EditText mIndexInput;

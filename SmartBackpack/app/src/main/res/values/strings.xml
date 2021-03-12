@@ -10,4 +10,8 @@
     <string name="add_item">Add Item</string>
     <string name="remove_item">Remove Item</string>
     <string name="edit_item">Edit Item</string>
+    <string name="TabLabel1">Home</string>
+    <string name="TabLabel2">Moisture</string>
+    <string name="TabLabel3">Weight</string>
+    <string name="TabLabel4">List</string>
 </resources>

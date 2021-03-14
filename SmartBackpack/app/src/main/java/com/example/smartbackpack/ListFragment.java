@@ -39,9 +39,9 @@ public class ListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
-        items.add(new ListItem(R.drawable.ic_launcher_foreground, "Lorem Lorem", 3));
-        items.add(new ListItem(R.drawable.ic_launcher_foreground, "Lorem Ipsum", 7));
-        items.add(new ListItem(R.drawable.ic_launcher_foreground, "Ipsum Ipsum", 8));
+        items.add(new ListItem(null, "Lorem Lorem", 3));
+        items.add(new ListItem(null, "Lorem Ipsum", 7));
+        items.add(new ListItem(null, "Ipsum Ipsum", 8));
 
         mRecyclerView = view.findViewById(R.id.list_scroller);
         mAdapter = new ListAdapter(getContext(), items);
@@ -91,27 +91,28 @@ public class ListFragment extends Fragment {
                 int index = data.getIntExtra(ItemActivity.Index, -1);
                 String name = data.getStringExtra(ItemActivity.Name);
                 int amount = data.getIntExtra(ItemActivity.Amount, 0);
-                Bitmap bitmap = (Bitmap) data.getParcelableExtra(ItemActivity.Image);
+                Bitmap image = (Bitmap) data.getParcelableExtra(ItemActivity.Image);
 
-                if (intentType.equals("Add")) AddItem(index, name, amount);
-                else if (intentType.equals("Edit")) EditItem(index, name, amount);
+                if (intentType.equals("Add")) AddItem(index, image, name, amount);
+                else if (intentType.equals("Edit")) EditItem(index, image, name, amount);
                 else if (intentType.equals("Remove")) RemoveItem(index, name);
             }
         }
     }
 
-    public void AddItem(int index, String name, int amount) {
+    public void AddItem(int index, Bitmap image, String name, int amount) {
         if (index == -1) index = items.size();
         if (name.equals("")) name = "No name given";
         if (amount == 0) amount = 1;
-        items.add(index, new ListItem(R.drawable.ic_launcher_foreground, name, amount));
+        items.add(index, new ListItem(image, name, amount));
         mAdapter.notifyItemInserted(index);
     }
 
-    public void EditItem(int index, String name, int amount) {
+    public void EditItem(int index, Bitmap image, String name, int amount) {
         ListItem item = items.get(index);
+        if (image != null) item.setImage(image);
         if (!name.equals("")) item.setName(name);
-        if (!(amount == 0)) item.setAmount(amount);
+        if (amount != 0) item.setAmount(amount);
         items.set(index, item);
         mAdapter.notifyItemChanged(index);
     }

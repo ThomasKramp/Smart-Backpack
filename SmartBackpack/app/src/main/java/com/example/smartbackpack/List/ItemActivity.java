@@ -109,7 +109,8 @@ public class ItemActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        vImage = (Bitmap) data.getExtras().get("data");
+        assert data != null;    // null check
+        vImage = Bitmap.createScaledBitmap((Bitmap) data.getExtras().get("data"), 200, 200, false);
         mImageHolder.setImageBitmap(vImage);
     }
 }

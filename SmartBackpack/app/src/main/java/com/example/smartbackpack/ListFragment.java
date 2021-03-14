@@ -1,6 +1,7 @@
 package com.example.smartbackpack;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.MainThread;
@@ -90,6 +91,7 @@ public class ListFragment extends Fragment {
                 int index = data.getIntExtra(ItemActivity.Index, -1);
                 String name = data.getStringExtra(ItemActivity.Name);
                 int amount = data.getIntExtra(ItemActivity.Amount, 0);
+                Bitmap bitmap = (Bitmap) data.getParcelableExtra(ItemActivity.Image);
 
                 if (intentType.equals("Add")) AddItem(index, name, amount);
                 else if (intentType.equals("Edit")) EditItem(index, name, amount);

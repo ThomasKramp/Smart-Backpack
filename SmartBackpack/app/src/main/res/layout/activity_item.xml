@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".List.ItemActivity">
 
+    <!--Index Item-->
     <TextView
         android:id="@+id/position_text"
         android:layout_width="wrap_content"
@@ -15,10 +16,9 @@
         android:text="Item Position:"
         android:textSize="24dp"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/position_input"
+        app:layout_constraintBaseline_toBaselineOf="@id/position_input"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!--Index Item-->
     <EditText
         android:id="@+id/position_input"
         android:layout_width="0dp"
@@ -26,9 +26,10 @@
         android:layout_margin="16dp"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/position_text"
+        app:layout_constraintStart_toEndOf="@id/position_text"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--Name Item-->
     <TextView
         android:id="@+id/name_text"
         android:layout_width="wrap_content"
@@ -38,19 +39,19 @@
         android:text="Item Name:"
         android:textSize="24dp"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/name_input"
+        app:layout_constraintBaseline_toBaselineOf="@id/name_input"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!--Name Item-->
     <EditText
         android:id="@+id/name_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/name_text"
-        app:layout_constraintTop_toBottomOf="@+id/position_input" />
+        app:layout_constraintStart_toEndOf="@id/name_text"
+        app:layout_constraintTop_toBottomOf="@id/position_input" />
 
+    <!--Amount Item-->
     <TextView
         android:id="@+id/amount_text"
         android:layout_width="wrap_content"
@@ -60,10 +61,9 @@
         android:text="Item Amount:"
         android:textSize="24dp"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/amount_input"
+        app:layout_constraintBaseline_toBaselineOf="@id/amount_input"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!--Amount Item-->
     <EditText
         android:id="@+id/amount_input"
         android:layout_width="0dp"
@@ -71,17 +71,35 @@
         android:layout_margin="16dp"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/amount_text"
-        app:layout_constraintTop_toBottomOf="@+id/name_input" />
+        app:layout_constraintStart_toEndOf="@id/amount_text"
+        app:layout_constraintTop_toBottomOf="@id/name_input" />
+
+    <ImageView
+        android:id="@+id/image_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/amount_input"
+        app:layout_constraintBottom_toTopOf="@id/image_button"/>
 
     <Button
-        android:id="@+id/return_button"
+        android:id="@+id/image_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Take Picture"
+        android:onClick="TakePicture"
+        app:layout_constraintBottom_toTopOf="@id/confirm_button"/>
+
+    <!--Confirm-->
+    <Button
+        android:id="@+id/confirm_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="returnReply"
-        android:text="Return"
+        android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

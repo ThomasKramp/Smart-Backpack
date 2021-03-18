@@ -56,6 +56,7 @@ public class ListFragment extends Fragment implements OnListItemListener {
                 startActivityForResult(intent, TEXT_REQUEST);
             }
         });
+        
         return view;
     }
 

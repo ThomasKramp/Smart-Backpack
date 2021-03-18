@@ -35,7 +35,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
         ListItem currentItem = items.get(position);
         holder.mNameView.setText(currentItem.getName());
         holder.mAmountView.setText(String.valueOf(currentItem.getAmount()));
-        holder.mImageView.setImageResource(currentItem.getImageResource());
+        if (currentItem.getImage() == null)
+            holder.mImageView.setImageResource(R.drawable.ic_no_image);
+        else holder.mImageView.setImageBitmap(currentItem.getImage());
     }
 
     @Override

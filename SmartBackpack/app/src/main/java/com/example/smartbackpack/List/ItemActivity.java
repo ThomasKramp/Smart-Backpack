@@ -72,22 +72,16 @@ public class ItemActivity extends AppCompatActivity {
         try {
             vName = mNameInput.getText().toString();
             replyIntent.putExtra(tName, vName);
-        } catch (Exception e) {
-            Log.e(TAG, "returnReply: No name given: ", e);
-        }
+        } catch (Exception e) { Log.e(TAG, "returnReply: No name given: ", e); }
 
         try {
             vAmount = Integer.parseInt(mAmountInput.getText().toString());
             replyIntent.putExtra(tAmount, vAmount);
-        } catch (Exception e) {
-            Log.e(TAG, "returnReply: No amount given: ", e);
-        }
+        } catch (Exception e) { Log.e(TAG, "returnReply: No amount given: ", e); }
 
         try {
             replyIntent.putExtra(tImage, vImage);
-        } catch (Exception e) {
-            Log.e(TAG, "returnReply: No Image given: ", e);
-        }
+        } catch (Exception e) { Log.e(TAG, "returnReply: No Image given: ", e); }
 
         setResult(RESULT_OK, replyIntent);
         if (CheckIfFilled()) finish();

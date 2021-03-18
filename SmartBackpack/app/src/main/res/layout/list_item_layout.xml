@@ -41,7 +41,7 @@ android:layout_height="wrap_content">
             app:layout_constraintStart_toEndOf="@+id/list_item_name" />
 
         <ImageView
-            android:id="@+id/list_item_delete"
+            android:id="@+id/delete_item_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"

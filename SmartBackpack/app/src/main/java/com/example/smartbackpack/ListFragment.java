@@ -56,16 +56,6 @@ public class ListFragment extends Fragment implements OnListItemListener {
                 startActivityForResult(intent, TEXT_REQUEST);
             }
         });
-
-        view.findViewById(R.id.list_remove_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ItemActivity.class);
-                intent.putExtra(ItemActivity.tIntentType, "Remove");
-                startActivityForResult(intent, TEXT_REQUEST);
-            }
-        });
-
         return view;
     }
 
@@ -86,7 +76,6 @@ public class ListFragment extends Fragment implements OnListItemListener {
 
                 if (intentType.equals("Add")) AddItem(index, image, name, amount);
                 else if (intentType.equals("Edit")) EditItem(index, image, name, amount);
-                else if (intentType.equals("Remove")) RemoveItem(index, name);
             }
         }
     }
@@ -108,19 +97,6 @@ public class ListFragment extends Fragment implements OnListItemListener {
         mAdapter.notifyItemChanged(index);
     }
 
-    public void RemoveItem(int index, String name) {
-        if (!name.equals("") && index == -1) {
-            for (ListItem item: items) {
-                if (item.getName().equals(name)) index = items.indexOf(item);
-            }
-        }
-        if (index >= 0) {
-            items.remove(index);
-            mAdapter.notifyItemRemoved(index);
-        }
-        else Toast.makeText(getContext(), name + " not in list", Toast.LENGTH_LONG).show();
-    }
-
     @Override
     public void onItemClick(int position) {
         ListItem oldItem = items.get(position);
@@ -131,5 +107,11 @@ public class ListFragment extends Fragment implements OnListItemListener {
         intent.putExtra(ItemActivity.tAmount, oldItem.getAmount());
         intent.putExtra(ItemActivity.tImage, oldItem.getImage());
         startActivityForResult(intent, TEXT_REQUEST);
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+        items.remove(position);
+        mAdapter.notifyItemRemoved(position);
     }
 }

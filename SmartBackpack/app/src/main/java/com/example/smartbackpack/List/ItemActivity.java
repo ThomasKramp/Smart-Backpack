@@ -86,23 +86,16 @@ public class ItemActivity extends AppCompatActivity {
         try {
             replyIntent.putExtra(tImage, vImage);
         } catch (Exception e) {
-            Log.e(TAG, "returnReply: No amount given: ", e);
+            Log.e(TAG, "returnReply: No Image given: ", e);
         }
 
         setResult(RESULT_OK, replyIntent);
-        if (CheckIfFilled(vName)) finish();
+        if (CheckIfFilled()) finish();
         else Toast.makeText(this, "Not everything is filled", Toast.LENGTH_LONG).show();
     }
 
-    public Boolean CheckIfFilled(String name){
-        if (vType.equals("Add")) {
-            if (name.equals("")) return false;
-        } else if (vType.equals("Edit")) {
-            if (false) return false;
-        } else if (vType.equals("Remove")) {
-            if (false) return false;
-        }
-        if (vImage == null) return false;
+    public Boolean CheckIfFilled(){
+        if (vIndex < 0 || vName.equals("") || vAmount < 1) return false;
         return true;
     }
 

@@ -14,20 +14,21 @@ import java.util.ArrayList;
 
 public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
-    private ArrayList<ListItem> items;
-
+    ArrayList<ListItem> items;
     LayoutInflater mInflater;
+    OnListItemListener mListItemListener;
 
-    public ListAdapter(Context listActivity, ArrayList<ListItem> items) {
+    public ListAdapter(Context listActivity, ArrayList<ListItem> items, OnListItemListener listItemListener) {
         mInflater = LayoutInflater.from(listActivity);
         this.items = items;
+        mListItemListener = listItemListener;
     }
 
     @NonNull
     @Override
     public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View viewHolder = mInflater.inflate(R.layout.list_item_layout, parent, false);
-        return new ListViewHolder(viewHolder);
+        return new ListViewHolder(viewHolder, mListItemListener);
     }
 
     @Override

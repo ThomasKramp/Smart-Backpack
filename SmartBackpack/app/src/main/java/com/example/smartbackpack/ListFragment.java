@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
-import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,10 +17,11 @@ import android.widget.Toast;
 import com.example.smartbackpack.List.ItemActivity;
 import com.example.smartbackpack.List.ListAdapter;
 import com.example.smartbackpack.List.ListItem;
+import com.example.smartbackpack.List.OnListItemListener;
 
 import java.util.ArrayList;
 
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements OnListItemListener {
 
     private static final String TAG = "ListActivity";
     public static final int TEXT_REQUEST = 1;
@@ -44,7 +44,7 @@ public class ListFragment extends Fragment {
         items.add(new ListItem(null, "Ipsum Ipsum", 8));
 
         mRecyclerView = view.findViewById(R.id.list_scroller);
-        mAdapter = new ListAdapter(getContext(), items);
+        mAdapter = new ListAdapter(getContext(), items, this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -52,29 +52,11 @@ public class ListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ItemActivity.class);
-                intent.putExtra(ItemActivity.IntentType, "Add");
+                intent.putExtra(ItemActivity.tIntentType, "Add");
                 startActivityForResult(intent, TEXT_REQUEST);
             }
         });
-
-        view.findViewById(R.id.list_edit_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ItemActivity.class);
-                intent.putExtra(ItemActivity.IntentType, "Edit");
-                startActivityForResult(intent, TEXT_REQUEST);
-            }
-        });
-
-        view.findViewById(R.id.list_remove_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ItemActivity.class);
-                intent.putExtra(ItemActivity.IntentType, "Remove");
-                startActivityForResult(intent, TEXT_REQUEST);
-            }
-        });
-
+        
         return view;
     }
 
@@ -85,17 +67,16 @@ public class ListFragment extends Fragment {
         if (requestCode == TEXT_REQUEST) {
             if (resultCode == ItemActivity.Result_Ok)
             {
-                String intentType = data.getStringExtra(ItemActivity.IntentType);
+                String intentType = data.getStringExtra(ItemActivity.tIntentType);
                 // Toast.makeText(this, intentType, Toast.LENGTH_SHORT).show();
 
-                int index = data.getIntExtra(ItemActivity.Index, -1);
-                String name = data.getStringExtra(ItemActivity.Name);
-                int amount = data.getIntExtra(ItemActivity.Amount, 0);
-                Bitmap image = (Bitmap) data.getParcelableExtra(ItemActivity.Image);
+                int index = data.getIntExtra(ItemActivity.tIndex, -1);
+                String name = data.getStringExtra(ItemActivity.tName);
+                int amount = data.getIntExtra(ItemActivity.tAmount, 0);
+                Bitmap image = (Bitmap) data.getParcelableExtra(ItemActivity.tImage);
 
                 if (intentType.equals("Add")) AddItem(index, image, name, amount);
                 else if (intentType.equals("Edit")) EditItem(index, image, name, amount);
-                else if (intentType.equals("Remove")) RemoveItem(index, name);
             }
         }
     }
@@ -117,16 +98,21 @@ public class ListFragment extends Fragment {
         mAdapter.notifyItemChanged(index);
     }
 
-    public void RemoveItem(int index, String name) {
-        if (!name.equals("") && index == -1) {
-            for (ListItem item: items) {
-                if (item.getName().equals(name)) index = items.indexOf(item);
-            }
-        }
-        if (index >= 0) {
-            items.remove(index);
-            mAdapter.notifyItemRemoved(index);
-        }
-        else Toast.makeText(getContext(), name + " not in list", Toast.LENGTH_LONG).show();
+    @Override
+    public void onItemClick(int position) {
+        ListItem oldItem = items.get(position);
+        Intent intent = new Intent(getContext(), ItemActivity.class);
+        intent.putExtra(ItemActivity.tIntentType, "Edit");
+        intent.putExtra(ItemActivity.tIndex, position);
+        intent.putExtra(ItemActivity.tName, oldItem.getName());
+        intent.putExtra(ItemActivity.tAmount, oldItem.getAmount());
+        intent.putExtra(ItemActivity.tImage, oldItem.getImage());
+        startActivityForResult(intent, TEXT_REQUEST);
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+        items.remove(position);
+        mAdapter.notifyItemRemoved(position);
     }
 }

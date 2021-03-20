@@ -72,12 +72,20 @@ public class ItemActivity extends AppCompatActivity {
         try {
             vName = mNameInput.getText().toString();
             replyIntent.putExtra(tName, vName);
-        } catch (Exception e) { Log.e(TAG, "returnReply: No name given: ", e); }
+        } catch (Exception e) {
+            Log.e(TAG, "returnReply: No name given: ", e);
+            Toast.makeText(this, "Improper character used", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         try {
             vAmount = Integer.parseInt(mAmountInput.getText().toString());
             replyIntent.putExtra(tAmount, vAmount);
-        } catch (Exception e) { Log.e(TAG, "returnReply: No amount given: ", e); }
+        } catch (Exception e) {
+            Log.e(TAG, "returnReply: No amount given: ", e);
+            Toast.makeText(this, "Number is too big", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         try {
             replyIntent.putExtra(tImage, vImage);
@@ -89,8 +97,8 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     public Boolean CheckIfFilled(){
-        if (vIndex < 0 || vName.equals("") || vAmount < 1) return false;
-        return true;
+        if (vIndex > -1 || !vName.equals("") || vAmount > 0) return true;
+        return false;
     }
 
     public void TakePicture(View view) {

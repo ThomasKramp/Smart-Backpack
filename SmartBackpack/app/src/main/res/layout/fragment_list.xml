@@ -19,7 +19,7 @@
         android:id="@+id/list_add_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/add_item"
+        android:text="@string/add_item_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

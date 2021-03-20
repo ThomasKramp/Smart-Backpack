@@ -1,17 +1,29 @@
 <resources>
     <string name="app_name">SmartBackpack</string>
-    <string name="measure_weight">Measure Weight</string>
-    <string name="measured_data" />
-    <string name="moisture_sensor">Moisture Sensor</string>
-    <string name="check_list">Check List</string>
-    <string name="check_moisture">Check Moisture</string>
-    <string name="check_weight">Check Weight</string>
     <string name="title">Smart Backpack</string>
-    <string name="add_item">Add Item</string>
-    <string name="remove_item">Remove Item</string>
-    <string name="edit_item">Edit Item</string>
+
     <string name="TabLabel1">Home</string>
     <string name="TabLabel2">Moisture</string>
     <string name="TabLabel3">Weight</string>
     <string name="TabLabel4">List</string>
+
+    <string name="home_text">These are the top stories:</string>
+
+    <string name="measure_weight">Measure Weight</string>
+    <string name="measured_data"></string>
+    <string name="check_weight">Check Weight</string>
+
+    <string name="moisture_sensor">Moisture Sensor</string>
+    <string name="check_moisture">Check Moisture</string>
+
+    <string name="check_list">Check List</string>
+    <string name="add_item_text">Add Item</string>
+    <string name="item_amount_text">Item Amount:</string>
+    <string name="item_name_text">Item Name:</string>
+    <string name="picture_button">Take Picture</string>
+    <string name="confirm_button">Confirm</string>
+
+    <string name="recycler_name_example">Lorem Ipsum</string>
+    <string name="recycler_text">Amount:</string>
+    <string name="recycler_amount_example">5</string>
 </resources>

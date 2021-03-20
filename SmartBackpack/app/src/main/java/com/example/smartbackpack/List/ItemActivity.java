@@ -43,10 +43,10 @@ public class ItemActivity extends AppCompatActivity {
         mAmountInput = findViewById(R.id.amount_input);
         mImageHolder = findViewById(R.id.image_holder);
 
-        GetIntentData();
+        getIntentData();
     }
 
-    private void GetIntentData() {
+    private void getIntentData() {
         Intent data = getIntent();
         vType = data.getStringExtra(tIntentType);
         if (vType.equals("Edit")){
@@ -92,16 +92,16 @@ public class ItemActivity extends AppCompatActivity {
         } catch (Exception e) { Log.e(TAG, "returnReply: No Image given: ", e); }
 
         setResult(RESULT_OK, replyIntent);
-        if (CheckIfFilled()) finish();
+        if (checkIfFilled()) finish();
         else Toast.makeText(this, "Not everything is filled", Toast.LENGTH_LONG).show();
     }
 
-    public Boolean CheckIfFilled(){
+    public Boolean checkIfFilled(){
         if (vIndex > -1 || !vName.equals("") || vAmount > 0) return true;
         return false;
     }
 
-    public void TakePicture(View view) {
+    public void takePicture(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, 0);
     }

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.smartbackpack.List.ItemActivity;
 import com.example.smartbackpack.List.ListAdapter;
@@ -22,8 +21,6 @@ import com.example.smartbackpack.List.OnListItemListener;
 import java.util.ArrayList;
 
 public class ListFragment extends Fragment implements OnListItemListener {
-
-    private static final String TAG = "ListActivity";
     public static final int TEXT_REQUEST = 1;
 
     ArrayList<ListItem> items = new ArrayList<>();
@@ -61,12 +58,10 @@ public class ListFragment extends Fragment implements OnListItemListener {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == TEXT_REQUEST) {
-            if (resultCode == ItemActivity.Result_Ok)
-            {
+            if (resultCode == ItemActivity.Result_Ok) {
                 String intentType = data.getStringExtra(ItemActivity.tIntentType);
                 // Toast.makeText(this, intentType, Toast.LENGTH_SHORT).show();
 
@@ -75,13 +70,13 @@ public class ListFragment extends Fragment implements OnListItemListener {
                 int amount = data.getIntExtra(ItemActivity.tAmount, 0);
                 Bitmap image = (Bitmap) data.getParcelableExtra(ItemActivity.tImage);
 
-                if (intentType.equals("Add")) AddItem(index, image, name, amount);
-                else if (intentType.equals("Edit")) EditItem(index, image, name, amount);
+                if (intentType.equals("Add")) addItem(index, image, name, amount);
+                else if (intentType.equals("Edit")) editItem(index, image, name, amount);
             }
         }
     }
 
-    public void AddItem(int index, Bitmap image, String name, int amount) {
+    public void addItem(int index, Bitmap image, String name, int amount) {
         if (index == -1) index = items.size();
         if (name.equals("")) name = "No name given";
         if (amount == 0) amount = 1;
@@ -89,7 +84,7 @@ public class ListFragment extends Fragment implements OnListItemListener {
         mAdapter.notifyItemInserted(index);
     }
 
-    public void EditItem(int index, Bitmap image, String name, int amount) {
+    public void editItem(int index, Bitmap image, String name, int amount) {
         ListItem item = items.get(index);
         if (image != null) item.setImage(image);
         if (!name.equals("")) item.setName(name);

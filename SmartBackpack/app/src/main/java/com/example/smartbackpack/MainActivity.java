@@ -1,5 +1,7 @@
 package com.example.smartbackpack;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -8,14 +10,23 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.smartbackpack.Bluetooth.BluetoothFragment;
+import com.example.smartbackpack.Bluetooth.BluetoothReceiver;
 import com.google.android.material.tabs.TabLayout;
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
+
+    private BluetoothReceiver btReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        btReceiver = new BluetoothReceiver();
+
+        // Register for broadcasts on BluetoothAdapter state change
+        IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+        registerReceiver(btReceiver, filter);
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -53,5 +64,11 @@ public class MainActivity extends AppCompatActivity
                     public void onTabReselected(TabLayout.Tab tab) {
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(btReceiver);
     }
 }

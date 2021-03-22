@@ -21,7 +21,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //Handle the Child Fragment.
+        // Handle the Child Fragment
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         BluetoothFragment bluetoothFragment = new BluetoothFragment();
         ft.replace(R.id.BluetoothFragmentContainer, bluetoothFragment, "BluetoothFragment");

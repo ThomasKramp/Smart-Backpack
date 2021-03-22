@@ -18,9 +18,9 @@ import com.example.smartbackpack.R;
 
 public class BluetoothFragment extends Fragment {
     private BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-    private Switch btSwitch;
-    private static String BT_ON_MESSAGE = "Bluetooth enabled";
-    private static String BT_OFF_MESSAGE = "Bluetooth disabled";
+    public static Switch btSwitch;
+    public static String BT_ON_MESSAGE = "Bluetooth enabled";
+    public static String BT_OFF_MESSAGE = "Bluetooth disabled";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

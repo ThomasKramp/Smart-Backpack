@@ -7,6 +7,12 @@ import android.content.Intent;
 import android.widget.Toast;
 
 public class BluetoothReceiver extends BroadcastReceiver {
+    private BluetoothReceiverListener listener;
+
+    public BluetoothReceiver(BluetoothReceiverListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     /**
      * Receives certain Bluetooth broadcast intents.
@@ -17,12 +23,14 @@ public class BluetoothReceiver extends BroadcastReceiver {
             final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
             switch (state) {
                 case BluetoothAdapter.STATE_OFF:
-                    showToast(context, "Bluetooth disabled");
+                    showToast(context, BluetoothFragment.BT_OFF_MESSAGE);
+                    listener.updateBluetoothSwitch(false);
                     break;
                 case BluetoothAdapter.STATE_TURNING_OFF:
                     break;
                 case BluetoothAdapter.STATE_ON:
-                    showToast(context, "Bluetooth enabled");
+                    showToast(context, BluetoothFragment.BT_ON_MESSAGE);
+                    listener.updateBluetoothSwitch(true);
                     break;
                 case BluetoothAdapter.STATE_TURNING_ON:
                     break;

@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,7 @@ import com.example.smartbackpack.Bluetooth.BluetoothReceiverListener;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity implements BluetoothReceiverListener {
-
+    private static final String TAG = "MainActivity";
     private BluetoothReceiver btReceiver;
     private PagerAdapter adapter;
 

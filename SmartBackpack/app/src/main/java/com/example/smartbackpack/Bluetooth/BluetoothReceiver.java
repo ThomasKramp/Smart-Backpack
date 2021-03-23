@@ -9,6 +9,8 @@ import android.widget.Toast;
 public class BluetoothReceiver extends BroadcastReceiver {
     private BluetoothReceiverListener listener;
 
+    public BluetoothReceiver() {}
+
     public BluetoothReceiver(BluetoothReceiverListener listener) {
         this.listener = listener;
     }

@@ -38,4 +38,15 @@
         app:layout_constraintVertical_bias="0.07"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
+    <Button
+        android:id="@+id/bt_paired_devices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Show paired devices"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_switch" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

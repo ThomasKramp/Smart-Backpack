@@ -4,25 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WeightActivity">
+    tools:context=".ListFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_scroller"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/list_add_button"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <Button
-        android:id="@+id/MeasureWeightButton"
+        android:id="@+id/list_add_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/measure_weight"
-        android:onClick="measureData"
+        android:text="@string/add_item_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/MeasuredData"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/measured_data"
-        app:layout_constraintBottom_toTopOf="@+id/MeasureWeightButton"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/list_scroller"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

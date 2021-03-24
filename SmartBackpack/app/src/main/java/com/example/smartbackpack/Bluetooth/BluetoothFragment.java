@@ -12,8 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ public class BluetoothFragment extends Fragment {
     public static Switch btSwitch;
     public static String BT_ON_MESSAGE = "Bluetooth enabled";
     public static String BT_OFF_MESSAGE = "Bluetooth disabled";
+    public ListView listViewPairedDevices;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class BluetoothFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btSwitch = view.findViewById(R.id.bt_switch);
+        listViewPairedDevices = view.findViewById(R.id.bt_list_view);
 
         if (btAdapter != null) {
             if (btAdapter.isEnabled()) {
@@ -79,7 +83,7 @@ public class BluetoothFragment extends Fragment {
             public void onClick(View v) {
                 pairedDevices = btAdapter.getBondedDevices();
 
-                ArrayList<String> listPairedDevices = new ArrayList<>();
+                ArrayList listPairedDevices = new ArrayList<>();
 
                 if (pairedDevices.size() > 0) {
                     Log.d(TAG, "start getting paired devices!");
@@ -92,7 +96,8 @@ public class BluetoothFragment extends Fragment {
                 }
                 showToast("Showing paired devices");
 
-
+                ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listPairedDevices);
+                listViewPairedDevices.setAdapter(adapter);
             }
         });
 

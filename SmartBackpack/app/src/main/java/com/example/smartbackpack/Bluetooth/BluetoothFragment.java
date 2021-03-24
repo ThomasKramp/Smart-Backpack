@@ -2,6 +2,7 @@ package com.example.smartbackpack.Bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,7 @@ public class BluetoothFragment extends Fragment {
     public ListView listViewPairedDevices;
     ArrayList listPairedDevices;
     TextView btSelected;
+    Button btConnect;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,8 @@ public class BluetoothFragment extends Fragment {
 
         btSelected = view.findViewById(R.id.bt_text_view);
 
+        btConnect = view.findViewById(R.id.bt_connect_button);
+
         if (btAdapter != null) {
             if (btAdapter.isEnabled()) {
                 btSwitch.setChecked(true);
@@ -79,6 +83,7 @@ public class BluetoothFragment extends Fragment {
                 if (isChecked) {
                     enableBluetooth();
                     showToast(BT_ON_MESSAGE);
+
                 } else {
                     disableBluetooth();
                     showToast(BT_OFF_MESSAGE);
@@ -118,6 +123,13 @@ public class BluetoothFragment extends Fragment {
                 // Selected item
                 Log.d(TAG, "Selected " + listPairedDevices.get(position));
                 btSelected.setText("Paired device: " + (CharSequence) listPairedDevices.get(position));
+            }
+        });
+
+        btConnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Connect to " + btSelected.getText());
             }
         });
     }

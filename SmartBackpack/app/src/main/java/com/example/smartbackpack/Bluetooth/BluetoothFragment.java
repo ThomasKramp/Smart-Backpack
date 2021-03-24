@@ -12,11 +12,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.smartbackpack.R;
@@ -33,6 +36,8 @@ public class BluetoothFragment extends Fragment {
     public static String BT_ON_MESSAGE = "Bluetooth enabled";
     public static String BT_OFF_MESSAGE = "Bluetooth disabled";
     public ListView listViewPairedDevices;
+    ArrayList listPairedDevices;
+    TextView btSelected;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +55,11 @@ public class BluetoothFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btSwitch = view.findViewById(R.id.bt_switch);
+
         listViewPairedDevices = view.findViewById(R.id.bt_list_view);
+        listViewPairedDevices.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+
+        btSelected = view.findViewById(R.id.bt_text_view);
 
         if (btAdapter != null) {
             if (btAdapter.isEnabled()) {
@@ -83,7 +92,7 @@ public class BluetoothFragment extends Fragment {
             public void onClick(View v) {
                 pairedDevices = btAdapter.getBondedDevices();
 
-                ArrayList listPairedDevices = new ArrayList<>();
+                listPairedDevices = new ArrayList<>();
 
                 if (pairedDevices.size() > 0) {
                     Log.d(TAG, "start getting paired devices!");
@@ -93,15 +102,24 @@ public class BluetoothFragment extends Fragment {
                         listPairedDevices.add("Name: " + deviceName + "MAC Address: " + deviceMAC);
                         Log.d(TAG, "Name: " + deviceName + ", MAC Address: " + deviceMAC);
                     }
+                    showToast("Showing paired devices");
+                } else {
+                    showToast("No paired devices");
                 }
-                showToast("Showing paired devices");
 
                 ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listPairedDevices);
                 listViewPairedDevices.setAdapter(adapter);
             }
         });
 
-
+        listViewPairedDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Selected item
+                Log.d(TAG, "Selected " + listPairedDevices.get(position));
+                btSelected.setText("Paired device: " + (CharSequence) listPairedDevices.get(position));
+            }
+        });
     }
 
     private void disableBluetooth() {
@@ -115,6 +133,8 @@ public class BluetoothFragment extends Fragment {
     private void showToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
+
+
 
 /*    public void showList(View v) {
 *//*        pairedDevices = btAdapter.getBondedDevices();

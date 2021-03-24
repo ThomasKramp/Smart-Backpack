@@ -12,9 +12,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         // Create an instance of the tab layout from the view.
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         // Set the text for each tab.

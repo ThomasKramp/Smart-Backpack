@@ -59,22 +59,20 @@
 
     <Button
         android:id="@+id/image_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/picture_button"
         android:onClick="takePicture"
-        app:layout_constraintBottom_toTopOf="@id/confirm_button"/>
+        app:layout_constraintBottom_toTopOf="@id/confirm_button"
+        style="@style/ButtonVividItemStyle"/>
 
     <!--Confirm-->
     <Button
         android:id="@+id/confirm_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:onClick="returnReply"
         android:text="@string/confirm_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/ButtonVividItemStyle"/>
 
 
 

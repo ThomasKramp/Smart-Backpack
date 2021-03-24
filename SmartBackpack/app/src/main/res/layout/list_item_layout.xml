@@ -9,7 +9,8 @@ android:layout_height="wrap_content">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".List.ItemActivity">
+        tools:context=".List.ItemActivity"
+        android:background="@color/colorPrimary">
 
         <ImageView
             android:id="@+id/list_item_image"
@@ -28,7 +29,8 @@ android:layout_height="wrap_content">
             android:text="@string/recycler_name_example"
             android:textSize="@dimen/header1"
             app:layout_constraintStart_toEndOf="@id/list_item_image"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/colorAccent"/>
 
         <TextView
             android:id="@+id/list_amount_text"
@@ -38,7 +40,8 @@ android:layout_height="wrap_content">
             android:text="@string/recycler_text"
             android:textSize="@dimen/header2"
             app:layout_constraintStart_toEndOf="@+id/list_item_image"
-            app:layout_constraintTop_toBottomOf="@id/list_item_name" />
+            app:layout_constraintTop_toBottomOf="@id/list_item_name"
+            android:textColor="@color/colorAccent"/>
 
         <TextView
             android:id="@+id/list_item_amount"
@@ -48,7 +51,8 @@ android:layout_height="wrap_content">
             android:text="@string/recycler_amount_example"
             android:textSize="@dimen/header2"
             app:layout_constraintBaseline_toBaselineOf="@id/list_amount_text"
-            app:layout_constraintStart_toEndOf="@id/list_amount_text" />
+            app:layout_constraintStart_toEndOf="@id/list_amount_text"
+            android:textColor="@color/colorAccent"/>
 
         <ImageView
             android:id="@+id/delete_item_image"

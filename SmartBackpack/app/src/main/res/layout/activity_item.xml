@@ -16,7 +16,8 @@
         android:textSize="@dimen/header1"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/name_input"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/colorSecondaryDark"/>
 
     <EditText
         android:id="@+id/name_input"
@@ -25,7 +26,8 @@
         android:layout_margin="@dimen/default_padding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/name_text"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/colorSecondaryDark"/>
 
     <!--Amount Item-->
     <TextView
@@ -37,7 +39,8 @@
         android:textSize="@dimen/header1"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/amount_input"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/colorSecondaryDark"/>
 
     <EditText
         android:id="@+id/amount_input"
@@ -47,7 +50,8 @@
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/amount_text"
-        app:layout_constraintTop_toBottomOf="@id/name_input" />
+        app:layout_constraintTop_toBottomOf="@id/name_input"
+        android:textColor="@color/colorSecondaryDark"/>
 
     <ImageView
         android:id="@+id/image_holder"
@@ -59,22 +63,20 @@
 
     <Button
         android:id="@+id/image_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/picture_button"
         android:onClick="takePicture"
-        app:layout_constraintBottom_toTopOf="@id/confirm_button"/>
+        app:layout_constraintBottom_toTopOf="@id/confirm_button"
+        style="@style/ButtonVividItemStyle"/>
 
     <!--Confirm-->
     <Button
         android:id="@+id/confirm_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:onClick="returnReply"
         android:text="@string/confirm_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/ButtonVividItemStyle"/>
 
 
 

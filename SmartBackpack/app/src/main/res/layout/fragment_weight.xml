@@ -8,12 +8,11 @@
 
     <Button
         android:id="@+id/MeasureWeightButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:text="@string/measure_weight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/ButtonVividFullScreenWidth"/>
 
     <TextView
         android:id="@+id/MeasuredData"

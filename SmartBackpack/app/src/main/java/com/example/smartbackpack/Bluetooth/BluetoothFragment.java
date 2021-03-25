@@ -2,12 +2,18 @@ package com.example.smartbackpack.Bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
+import android.content.Context;
+import android.content.Intent;
+import android.net.MacAddress;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +28,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.smartbackpack.MainActivity;
 import com.example.smartbackpack.R;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.UUID;
 
 public class BluetoothFragment extends Fragment {
     private static final String TAG = "BluetoothFragment";
@@ -128,7 +139,8 @@ public class BluetoothFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Selected item
                 Log.d(TAG, "Selected " + listPairedDevices.get(position));
-                btSelected.setText("Paired device: \n" + (CharSequence) listPairedDevices.get(position));
+                btSelected.setText("Paired device: " + (CharSequence) listPairedDevices.get(position));
+                Device = (String) listPairedDevices.get(position);
             }
         });
 
@@ -136,8 +148,35 @@ public class BluetoothFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Connect to " + btSelected.getText());
+                String address = Device.substring(Device.length()-17);
+                Log.d(TAG, "Address: " + address);
+                getData(address);
             }
         });
+    }
+
+    public String Device = "";
+    private void getData(String deviceMAC) {
+        //https://stackoverflow.com/questions/8409180/reading-data-from-bluetooth-device-in-android/8421825
+        //https://stackoverflow.com/questions/36785985/buetooth-connection-failed-read-failed-socket-might-closed-or-timeout-read-re?answertab=active
+        byte[] buffer = new byte[64];//1024
+        UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+        BluetoothDevice btDevice = btAdapter.getRemoteDevice(deviceMAC);
+        BluetoothSocket btSocket = null;
+        InputStream input = null;
+        try {
+            btSocket = btDevice.createInsecureRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+            btSocket.connect();
+            input = btSocket.getInputStream();
+            DataInputStream dinput = new DataInputStream(input);
+            dinput.readFully(buffer, 0, buffer.length);
+            String s = new String(buffer);
+            btSocket.close();
+            Log.d(TAG, "getData: " + s);
+        } catch (IOException e) {
+            Log.e(TAG, "getData: ", e);
+        }
+        Log.d(TAG, "getData: done");
     }
 
     private void enableOptions(boolean show) {

@@ -1,13 +1,17 @@
 package com.example.smartbackpack;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 

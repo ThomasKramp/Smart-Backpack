@@ -16,9 +16,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
     }
 
     @Override
-    /**
-     * Receives certain Bluetooth broadcast intents.
-     */
+    /* Receives certain Bluetooth broadcast intents. */
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
         if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {

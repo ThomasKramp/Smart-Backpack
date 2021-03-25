@@ -1,16 +1,40 @@
 package com.example.smartbackpack;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
+
+import com.example.smartbackpack.Bluetooth.BluetoothFragment;
+import com.example.smartbackpack.Bluetooth.BluetoothReceiver;
+import com.example.smartbackpack.Bluetooth.BluetoothReceiverListener;
 import com.google.android.material.tabs.TabLayout;
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity implements BluetoothReceiverListener {
+    private static final String TAG = "MainActivity";
+    private BluetoothReceiver btReceiver;
+    private PagerAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        btReceiver = new BluetoothReceiver(this);
+
+        // Register for broadcasts on BluetoothAdapter state change
+        IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+        registerReceiver(btReceiver, filter);
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -29,7 +53,7 @@ public class MainActivity extends AppCompatActivity
         // Use PagerAdapter to manage page views in fragments.
         // Each page is represented by its own fragment.
         final ViewPager viewPager = findViewById(R.id.pager);
-        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
 
         // Setting a listener for clicks.
@@ -48,5 +72,21 @@ public class MainActivity extends AppCompatActivity
                     public void onTabReselected(TabLayout.Tab tab) {
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(btReceiver);
+    }
+
+    @Override
+    public void updateBluetoothSwitch(boolean update) {
+        // Update switch
+        BluetoothFragment.btSwitch.setChecked(update);
+    }
+
+    private void showToast(String message){
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

@@ -2,7 +2,6 @@ package com.example.smartbackpack.Bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -39,7 +38,8 @@ public class BluetoothFragment extends Fragment {
     public ListView listViewPairedDevices;
     ArrayList listPairedDevices;
     TextView btSelected;
-    Button btConnect;
+    Button btShowPairedDevicesButton;
+    Button btConnectButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,16 +61,20 @@ public class BluetoothFragment extends Fragment {
         listViewPairedDevices = view.findViewById(R.id.bt_list_view);
         listViewPairedDevices.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 
+        btShowPairedDevicesButton = view.findViewById(R.id.bt_paired_devices_button);
+
         btSelected = view.findViewById(R.id.bt_text_view);
 
-        btConnect = view.findViewById(R.id.bt_connect_button);
+        btConnectButton = view.findViewById(R.id.bt_connect_button);
 
         if (btAdapter != null) {
             if (btAdapter.isEnabled()) {
                 btSwitch.setChecked(true);
                 showToast(BT_ON_MESSAGE);
+                enableOptions(true);
             } else {
                 btSwitch.setChecked(false);
+                enableOptions(false);
             }
         } else {
             showToast("Device does not support bluetooth");
@@ -83,16 +87,18 @@ public class BluetoothFragment extends Fragment {
                 if (isChecked) {
                     enableBluetooth();
                     showToast(BT_ON_MESSAGE);
+                    enableOptions(true);
 
                 } else {
                     disableBluetooth();
                     showToast(BT_OFF_MESSAGE);
+                    enableOptions(false);
                 }
             }
         });
 
-        Button btShowPairedDevices = view.findViewById(R.id.bt_paired_devices);
-        btShowPairedDevices.setOnClickListener(new View.OnClickListener() {
+
+        btShowPairedDevicesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pairedDevices = btAdapter.getBondedDevices();
@@ -122,16 +128,31 @@ public class BluetoothFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Selected item
                 Log.d(TAG, "Selected " + listPairedDevices.get(position));
-                btSelected.setText("Paired device: " + (CharSequence) listPairedDevices.get(position));
+                btSelected.setText("Paired device: \n" + (CharSequence) listPairedDevices.get(position));
             }
         });
 
-        btConnect.setOnClickListener(new View.OnClickListener() {
+        btConnectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Connect to " + btSelected.getText());
             }
         });
+    }
+
+    private void enableOptions(boolean show) {
+        btShowPairedDevicesButton.setEnabled(show);
+        btSelected.setEnabled(show);
+        btConnectButton.setEnabled(show);
+        listViewPairedDevices.setEnabled(show);
+/*        if (show) {
+            Log.d(TAG, "show the options");
+            btShowPairedDevicesButton.setEnabled(false);
+            btConnectButton.setEnabled(false);
+        } else {
+            Log.d(TAG, "hide the options");
+        }*/
+
     }
 
     private void disableBluetooth() {
@@ -145,28 +166,59 @@ public class BluetoothFragment extends Fragment {
     private void showToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
-
-
-
-/*    public void showList(View v) {
-*//*        pairedDevices = btAdapter.getBondedDevices();
-
-        ArrayList list = new ArrayList();
-
-        if (pairedDevices.size() > 0) {
-            Log.d("BT FRAGMENT", "start getting paired devices!");
-            for (BluetoothDevice device: pairedDevices) {
-                String deviceName = device.getName();
-                String deviceMAC = device.getAddress();
-                list.add("Name: " + deviceName + "MAC Address: " + deviceMAC);
-                Log.d("BT FRAGMENT", "Name: " + deviceName + "MAC Address: " + deviceMAC);
-            }
-        }
-        showToast("Showing paired devices");
-
-        ListView btListView = (ListView) v.findViewById(R.id.bt_listview);
-        //final ArrayAdapter adapter = new ArrayAdapter(this, R.layout.list_item_layout, list);*//*
-
-
-    }*/
 }
+
+/*
+class ConnectThread extends Thread {
+    private static final String TAG = "ConnectThread";
+    private final BluetoothSocket mmSocket;
+    private final BluetoothDevice mmDevice;
+
+    public ConnectThread(BluetoothDevice device) {
+        // Use a temporary object that is later assigned to mmSocket
+        // because mmSocket is final.
+        BluetoothSocket tmp = null;
+        mmDevice = device;
+
+        try {
+            // Get a BluetoothSocket to connect with the given BluetoothDevice.
+            // MY_UUID is the app's UUID string, also used in the server code.
+            tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
+        } catch (IOException e) {
+            Log.e(TAG, "Socket's create() method failed", e);
+        }
+        mmSocket = tmp;
+    }
+
+    public void run() {
+        // Cancel discovery because it otherwise slows down the connection.
+        bluetoothAdapter.cancelDiscovery();
+
+        try {
+            // Connect to the remote device through the socket. This call blocks
+            // until it succeeds or throws an exception.
+            mmSocket.connect();
+        } catch (IOException connectException) {
+            // Unable to connect; close the socket and return.
+            try {
+                mmSocket.close();
+            } catch (IOException closeException) {
+                Log.e(TAG, "Could not close the client socket", closeException);
+            }
+            return;
+        }
+
+        // The connection attempt succeeded. Perform work associated with
+        // the connection in a separate thread.
+        manageMyConnectedSocket(mmSocket);
+    }
+
+    // Closes the client socket and causes the thread to finish.
+    public void cancel() {
+        try {
+            mmSocket.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Could not close the client socket", e);
+        }
+    }
+}*/

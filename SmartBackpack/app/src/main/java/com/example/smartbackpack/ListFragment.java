@@ -24,7 +24,7 @@ public class ListFragment extends Fragment implements ListItemListener {
     public static final int TEXT_REQUEST = 1;
 
     ArrayList<ListItem> items = new ArrayList<>();
-    ListAdapter mAdapter;
+    ListAdapter mListAdapter;
     RecyclerView mRecyclerView;
 
     public ListFragment() {
@@ -40,9 +40,9 @@ public class ListFragment extends Fragment implements ListItemListener {
         items.add(new ListItem(null, "Lorem Ipsum", 7));
         items.add(new ListItem(null, "Ipsum Ipsum", 8));
 
-        mRecyclerView = view.findViewById(R.id.device_scroller);
-        mAdapter = new ListAdapter(getContext(), items, this);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView = view.findViewById(R.id.list_scroller);
+        mListAdapter = new ListAdapter(getContext(), items, this);
+        mRecyclerView.setAdapter(mListAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         view.findViewById(R.id.list_add_button).setOnClickListener(new View.OnClickListener() {
@@ -81,7 +81,7 @@ public class ListFragment extends Fragment implements ListItemListener {
         if (name.equals("")) name = "No name given";
         if (amount == 0) amount = 1;
         items.add(index, new ListItem(image, name, amount));
-        mAdapter.notifyItemInserted(index);
+        mListAdapter.notifyItemInserted(index);
     }
 
     public void editItem(int index, Bitmap image, String name, int amount) {
@@ -90,7 +90,7 @@ public class ListFragment extends Fragment implements ListItemListener {
         if (!name.equals("")) item.setName(name);
         if (amount != 0) item.setAmount(amount);
         items.set(index, item);
-        mAdapter.notifyItemChanged(index);
+        mListAdapter.notifyItemChanged(index);
     }
 
     @Override
@@ -108,6 +108,6 @@ public class ListFragment extends Fragment implements ListItemListener {
     @Override
     public void onDeleteClick(int position) {
         items.remove(position);
-        mAdapter.notifyItemRemoved(position);
+        mListAdapter.notifyItemRemoved(position);
     }
 }

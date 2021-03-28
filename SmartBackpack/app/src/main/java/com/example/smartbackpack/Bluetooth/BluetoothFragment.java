@@ -15,13 +15,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.smartbackpack.MainActivity;
 import com.example.smartbackpack.R;
 
 import java.io.DataInputStream;
@@ -77,6 +77,7 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener{
         mBluetoothSwitch = view.findViewById(R.id.bluetooth_switch);
         checkToggle();
 
+        // Get Devices
         mShowDevicesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,7 +104,8 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener{
             @Override
             public void onClick(View v) {
                 if (selectedDevice != null){
-                    getData(selectedDevice.getMacAddress());
+                    MainActivity.bluetoothTask = new MainActivity.BluetoothTask(mBluetoothAdapter, selectedDevice.getMacAddress());
+                    MainActivity.bluetoothTask.execute();
                     Log.d(TAG, "Connect to " + selectedDevice.getName());
                     Log.d(TAG, "Address: " + selectedDevice.getMacAddress());
                 } else Toast.makeText(getActivity(), "No device selected", Toast.LENGTH_SHORT).show();
@@ -139,29 +141,6 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener{
                 }
             }
         });
-    }
-
-    private void getData(String deviceMAC) {
-        //https://stackoverflow.com/questions/8409180/reading-data-from-bluetooth-device-in-android/8421825
-        //https://stackoverflow.com/questions/36785985/buetooth-connection-failed-read-failed-socket-might-closed-or-timeout-read-re?answertab=active
-        byte[] buffer = new byte[64];//1024
-        UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-        BluetoothDevice btDevice = mBluetoothAdapter.getRemoteDevice(deviceMAC);
-        BluetoothSocket btSocket = null;
-        InputStream input = null;
-        try {
-            btSocket = btDevice.createInsecureRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
-            btSocket.connect();
-            input = btSocket.getInputStream();
-            DataInputStream dinput = new DataInputStream(input);
-            dinput.readFully(buffer, 0, buffer.length);
-            String s = new String(buffer);
-            btSocket.close();
-            Log.d(TAG, "getData: " + s);
-        } catch (IOException e) {
-            Log.e(TAG, "getData: ", e);
-        }
-        Log.d(TAG, "getData: done");
     }
 
     private void enableOptions(int visibility) {

@@ -1,8 +1,13 @@
 package com.example.smartbackpack;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,10 +18,17 @@ import com.example.smartbackpack.Bluetooth.BluetoothReceiver;
 import com.example.smartbackpack.Bluetooth.BluetoothReceiverListener;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.UUID;
+
 public class MainActivity extends AppCompatActivity implements BluetoothReceiverListener {
     private static final String TAG = "MainActivity";
     private BluetoothReceiver btReceiver;
     private PagerAdapter adapter;
+    public static BluetoothTask bluetoothTask;
+    public static String Data = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,5 +93,41 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
 
     private void showToast(String message){
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    public static final class BluetoothTask extends AsyncTask<Void, Void, Void> {
+        BluetoothSocket bluetoothSocket = null;
+        InputStream inputStream = null;
+
+        public BluetoothTask(BluetoothAdapter bluetoothAdapter, String MacAddress){
+            try {
+                BluetoothDevice btDevice = bluetoothAdapter.getRemoteDevice(MacAddress);
+                bluetoothSocket = btDevice.createInsecureRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+                bluetoothSocket.connect();
+                inputStream = bluetoothSocket.getInputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                if (inputStream != null) {
+                    try {
+                        Thread.sleep(1000);
+                        int availableBytes = inputStream.available();
+                        byte[] buffer = new byte[availableBytes];
+                        DataInputStream input = new DataInputStream(inputStream);
+                        input.readFully(buffer, 0, buffer.length);
+                        MainActivity.Data = new String(buffer);
+                        Log.d(TAG, "getData: " + MainActivity.Data);
+                        bluetoothSocket.close();
+                    } catch (IOException e) { e.printStackTrace(); }
+                }
+            } catch (Exception e) { e.printStackTrace(); }
+            Log.d(TAG, "getData: done");
+            return null;
+        }
     }
 }

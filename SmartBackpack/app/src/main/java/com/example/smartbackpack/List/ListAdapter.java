@@ -16,9 +16,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
     ArrayList<ListItem> items;
     LayoutInflater mInflater;
-    OnListItemListener mListItemListener;
+    ListItemListener mListItemListener;
 
-    public ListAdapter(Context listActivity, ArrayList<ListItem> items, OnListItemListener listItemListener) {
+    public ListAdapter(Context listActivity, ArrayList<ListItem> items, ListItemListener listItemListener) {
         mInflater = LayoutInflater.from(listActivity);
         this.items = items;
         mListItemListener = listItemListener;

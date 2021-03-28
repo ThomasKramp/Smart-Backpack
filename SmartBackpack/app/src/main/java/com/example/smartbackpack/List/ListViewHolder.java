@@ -15,12 +15,12 @@ public class ListViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     TextView mAmountView;
     ImageView mImageView;
     ImageView mDeleteImage;
-    OnListItemListener mListItemListener;
+    ListItemListener mListItemListener;
 
-    public ListViewHolder(@NonNull View itemView, OnListItemListener listItemListener) {
+    public ListViewHolder(@NonNull View itemView, ListItemListener listItemListener) {
         super(itemView);
 
-        this.mListItemListener = listItemListener;
+        mListItemListener = listItemListener;
         itemView.setOnClickListener(this);
 
         mNameView = itemView.findViewById(R.id.list_item_name);

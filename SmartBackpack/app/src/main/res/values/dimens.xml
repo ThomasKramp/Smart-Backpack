@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="default_padding">8sp</dimen>
-    <dimen name="header2">20sp</dimen>
+    <dimen name="padding1">8sp</dimen>
+    <dimen name="padding2">16sp</dimen>
     <dimen name="header1">24sp</dimen>
+    <dimen name="header2">20sp</dimen>
 </resources>

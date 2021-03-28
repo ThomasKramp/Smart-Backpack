@@ -1,6 +1,6 @@
 package com.example.smartbackpack.List;
 
-public interface OnListItemListener {
+public interface ListItemListener {
     void onItemClick(int position);
     void onDeleteClick(int position);
 }

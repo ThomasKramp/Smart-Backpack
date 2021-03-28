@@ -16,11 +16,11 @@ import android.view.ViewGroup;
 import com.example.smartbackpack.List.ItemActivity;
 import com.example.smartbackpack.List.ListAdapter;
 import com.example.smartbackpack.List.ListItem;
-import com.example.smartbackpack.List.OnListItemListener;
+import com.example.smartbackpack.List.ListItemListener;
 
 import java.util.ArrayList;
 
-public class ListFragment extends Fragment implements OnListItemListener {
+public class ListFragment extends Fragment implements ListItemListener {
     public static final int TEXT_REQUEST = 1;
 
     ArrayList<ListItem> items = new ArrayList<>();
@@ -40,7 +40,7 @@ public class ListFragment extends Fragment implements OnListItemListener {
         items.add(new ListItem(null, "Lorem Ipsum", 7));
         items.add(new ListItem(null, "Ipsum Ipsum", 8));
 
-        mRecyclerView = view.findViewById(R.id.list_scroller);
+        mRecyclerView = view.findViewById(R.id.device_scroller);
         mAdapter = new ListAdapter(getContext(), items, this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

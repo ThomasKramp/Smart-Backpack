@@ -98,12 +98,15 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener{
             }
         });
 
+        // Connect to bluetooth
         mConnectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "Connect to " + selectedDevice.getName());
-                Log.d(TAG, "Address: " + selectedDevice.getMacAddress());
-                getData(selectedDevice.getMacAddress());
+                if (selectedDevice != null){
+                    getData(selectedDevice.getMacAddress());
+                    Log.d(TAG, "Connect to " + selectedDevice.getName());
+                    Log.d(TAG, "Address: " + selectedDevice.getMacAddress());
+                } else Toast.makeText(getActivity(), "No device selected", Toast.LENGTH_SHORT).show();
             }
         });
     }

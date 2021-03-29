@@ -6,8 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".WeightFragment">
 
+    <TextView
+        android:id="@+id/measured_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/measure_weight"
+        android:textSize="@dimen/header2"
+        app:layout_constraintBottom_toTopOf="@+id/measure_weight_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
-        android:id="@+id/MeasureWeightButton"
+        android:id="@+id/measure_weight_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/measure_weight"
@@ -15,13 +26,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/MeasuredData"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/measured_data"
-        app:layout_constraintBottom_toTopOf="@+id/MeasureWeightButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

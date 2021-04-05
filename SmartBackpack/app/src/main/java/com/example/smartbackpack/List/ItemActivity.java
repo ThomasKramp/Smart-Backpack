@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -129,7 +131,12 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        mNameInput.setText(parent.getItemAtPosition(position).toString());
+        String item = parent.getItemAtPosition(position).toString();
+        mNameInput.setText(item);
+        int itemId = this.getResources().getIdentifier(item.toLowerCase(), "drawable", this.getPackageName());
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), itemId);
+        vImage = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.1f), (int) (bitmap.getHeight() * 0.1f), false);
+        mImageHolder.setImageBitmap(vImage);
     }
 
     @Override

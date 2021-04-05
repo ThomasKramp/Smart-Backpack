@@ -9,13 +9,16 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.smartbackpack.R;
 
-public class ItemActivity extends AppCompatActivity {
+public class ItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private static final String TAG = "ItemActivity";
     public static final String tIntentType = "IntentType";
     public static final String tIndex = "Index";
@@ -24,6 +27,7 @@ public class ItemActivity extends AppCompatActivity {
     public static final String tImage = "Image";
     public static final int Result_Ok = RESULT_OK;
 
+    Spinner mItemSelect;
     EditText mNameInput;
     EditText mAmountInput;
     ImageView mImageHolder;
@@ -38,6 +42,15 @@ public class ItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
+
+        mItemSelect = findViewById(R.id.item_select);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.pre_set_items, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        if (mItemSelect != null){
+            mItemSelect.setOnItemSelectedListener(this);
+            mItemSelect.setAdapter(adapter);
+        }
 
         mNameInput = findViewById(R.id.name_input);
         mAmountInput = findViewById(R.id.amount_input);
@@ -112,5 +125,15 @@ public class ItemActivity extends AppCompatActivity {
         assert data != null;    // null check
         vImage = Bitmap.createScaledBitmap((Bitmap) data.getExtras().get("data"), 200, 200, false);
         mImageHolder.setImageBitmap(vImage);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        mNameInput.setText(parent.getItemAtPosition(position).toString());
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

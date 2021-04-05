@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".List.ItemActivity">
 
+    <!--Pre-Set Item-->
     <TextView
         android:id="@+id/pre_set_item_text"
         android:layout_width="wrap_content"
@@ -18,7 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:textColor="@color/colorSecondaryDark"/>
 
-    <!--Name Item-->
     <Spinner
         android:id="@+id/pre_set_item_select"
         android:layout_width="0dp"
@@ -30,6 +30,7 @@
         app:layout_constraintStart_toEndOf="@id/pre_set_item_text"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--Name Item-->
     <TextView
         android:id="@+id/name_text"
         android:layout_width="wrap_content"

@@ -18,6 +18,7 @@
 
     <string name="check_list">Check List</string>
     <string name="add_item_text">Add Item</string>
+    <string name="pre_set_items_text">Pre-set Items:</string>
     <string-array name="pre_set_items">
         <item>Water</item>
         <item>Pants</item>

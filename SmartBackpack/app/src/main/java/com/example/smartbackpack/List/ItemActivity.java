@@ -43,7 +43,7 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
-        mItemSelect = findViewById(R.id.item_select);
+        mItemSelect = findViewById(R.id.pre_set_item_select);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.pre_set_items, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

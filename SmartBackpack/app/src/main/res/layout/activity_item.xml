@@ -6,13 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".List.ItemActivity">
 
-    <Spinner
-        android:id="@+id/item_select"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/pre_set_item_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_margin="@dimen/padding1"
+        android:text="@string/pre_set_items_text"
+        android:textSize="@dimen/header1"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/colorSecondaryDark"/>
 
     <!--Name Item-->
+    <Spinner
+        android:id="@+id/pre_set_item_select"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding1"
+        android:textSize="@dimen/header1"
+        app:layout_constraintBottom_toTopOf="@+id/name_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/pre_set_item_text"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/name_text"
         android:layout_width="wrap_content"
@@ -32,7 +49,7 @@
         android:layout_margin="@dimen/padding1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/name_text"
-        app:layout_constraintTop_toBottomOf="@id/item_select"
+        app:layout_constraintTop_toBottomOf="@id/pre_set_item_text"
         android:textColor="@color/colorSecondaryDark"/>
 
     <!--Amount Item-->

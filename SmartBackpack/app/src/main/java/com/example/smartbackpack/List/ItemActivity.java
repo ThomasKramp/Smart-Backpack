@@ -133,10 +133,14 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
         mNameInput.setText(item);
-        int itemId = this.getResources().getIdentifier(item.toLowerCase(), "drawable", this.getPackageName());
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), itemId);
-        vImage = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.1f), (int) (bitmap.getHeight() * 0.1f), false);
-        mImageHolder.setImageBitmap(vImage);
+        if (!item.isEmpty() && item != null){
+            int itemId = this.getResources().getIdentifier(item.toLowerCase(), "drawable", this.getPackageName());
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), itemId);
+            vImage = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.1f), (int) (bitmap.getHeight() * 0.1f), false);
+            mImageHolder.setImageBitmap(vImage);
+        } else {
+            mImageHolder.setImageResource(R.drawable.ic_no_image);
+        }
     }
 
     @Override

@@ -20,9 +20,10 @@
     <string name="add_item_text">Add Item</string>
     <string name="pre_set_items_text">Pre-set Items:</string>
     <string-array name="pre_set_items">
-        <item>Water</item>
+        <item> </item>
         <item>Pants</item>
         <item>Underwear</item>
+        <item>Water</item>
     </string-array>
     <string name="item_amount_text">Item Amount:</string>
     <string name="item_name_text">Item Name:</string>

@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         BluetoothFragment.mBluetoothSwitch.setChecked(update);
     }
 
-    public static void StartBluetoothTask(BluetoothAdapter bluetoothAdapter, String MacAddres){
-        bluetoothTask = new MainActivity.BluetoothTask(bluetoothAdapter, MacAddres);
+    public static void StartBluetoothTask(BluetoothAdapter bluetoothAdapter, String MacAddress){
+        bluetoothTask = new MainActivity.BluetoothTask(bluetoothAdapter, MacAddress);
         bluetoothTask.execute();
     }
 

@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     private static final String TAG = "MainActivity";
     private BluetoothReceiver btReceiver;
     private PagerAdapter adapter;
-    public static BluetoothTask bluetoothTask;
+    private static BluetoothTask bluetoothTask;
     public static String Data = "";
 
     @Override
@@ -91,6 +91,11 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         BluetoothFragment.mBluetoothSwitch.setChecked(update);
     }
 
+    public static void StartBluetoothTask(BluetoothAdapter bluetoothAdapter, String MacAddres){
+        bluetoothTask = new MainActivity.BluetoothTask(bluetoothAdapter, MacAddres);
+        bluetoothTask.execute();
+    }
+
     public static final class BluetoothTask extends AsyncTask<Void, Void, Void> {
         BluetoothSocket bluetoothSocket = null;
         InputStream inputStream = null;
@@ -149,5 +154,4 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
             timerHandler.removeCallbacksAndMessages(null);
         }
     }
-
 }

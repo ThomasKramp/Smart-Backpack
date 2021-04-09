@@ -1,7 +1,9 @@
 package com.example.smartbackpack;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -43,25 +45,23 @@ public class MoistureFragment extends Fragment {
             tempButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "onClick: hello");
+                    CheckBackPackMoisture(v, MainActivity.MoistureData);
                 }
             });
             Buttons.add(tempButton);
         }
     }
 
-    private void CheckBackPackMoisture(String moistureData) {
+    private void CheckBackPackMoisture(View view, List<String> moistureData) {
+        int index = Buttons.indexOf(view);
         if (!moistureData.isEmpty()){
-            if (moistureData.length() >= 4 + DATA_TAG.length()){
-                String[] separated = moistureData.split(DATA_TAG);
-                int teller = 0;
-                if (separated.length > 1) {
-                    teller++;
-                    for (String moistureString: separated){
-                        Log.d(TAG, "CheckBackPackWeight: Sensor" + teller + ": " + moistureString);
-                        if (moistureString.isEmpty()) continue;
-                    }
-                }
+            String data = moistureData.get(index);
+            Log.d(TAG, "CheckBackPackMoisture: " + data);
+            if (data.length() > DATA_TAG.length()){
+                data = data.substring(DATA_TAG.length());
+                int moistureLevel = Integer.parseInt(data);
+                if (moistureLevel != 0) view.setBackgroundResource(R.color.colorPrimaryDark);
+                else view.setBackgroundResource(R.color.colorPrimary);
             }
         } else Log.d(TAG, "CheckBackPackWeight: No Data Received");
     }

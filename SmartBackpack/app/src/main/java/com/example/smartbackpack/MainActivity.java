@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     private PagerAdapter adapter;
     private static BluetoothTask bluetoothTask;
     public static String WeightData = "";
+    public static String MoistureData = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

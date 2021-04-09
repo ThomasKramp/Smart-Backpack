@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class WeightFragment extends Fragment {
     private static final String TAG = "WeightFragment";
-    private static final String DATA_TAG = "Value: ";
+    private static final String DATA_TAG = "Weight: ";
 
     EditText mUserWeightInput;
     TextView mMeasureData;

@@ -19,8 +19,13 @@ void setup() {
 
 void loop() {
   waarde = analogRead(pot);
-  SerialBT.print("Value: ");
+  SerialBT.print("Weight: ");
   SerialBT.print(waarde);
   SerialBT.print('\n');
+  for(int sensor = 1; sensor <= 8; sensor++){
+    SerialBT.print("Moisture: ");
+    SerialBT.print(waarde % sensor);
+    SerialBT.print('\n');
+  }
   delay(1000);
 }

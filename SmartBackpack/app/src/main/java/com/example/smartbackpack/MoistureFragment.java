@@ -11,10 +11,7 @@ import android.view.ViewGroup;
 
 public class MoistureFragment extends Fragment {
     private static final String TAG = "MoistureFragment";
-    private static final String DATA_TAG = "Moisture: ";
-
-    double backPackWeight = 0;   // Weight in kilogram
-    String WeightMessage = "";
+    public static final String DATA_TAG = "Moisture: ";
 
     public MoistureFragment() {
         // Required empty public constructor
@@ -27,13 +24,12 @@ public class MoistureFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_moisture, container, false);
     }
 
-    private void GetBackPackMoisture(String weightData) {
-        if (!weightData.isEmpty()){
-            if (weightData.length() >= 4 + DATA_TAG.length()){
-                String[] separated = weightData.split(DATA_TAG);
+    private void GetBackPackMoisture(String moistureData) {
+        if (!moistureData.isEmpty()){
+            if (moistureData.length() >= 4 + DATA_TAG.length()){
+                String[] separated = moistureData.split(DATA_TAG);
                 int teller = 0;
                 if (separated.length > 1) {
-                    backPackWeight = 0;
                     teller++;
                     for (String moistureString: separated){
                         Log.d(TAG, "CheckBackPackWeight: Sensor" + teller + ": " + moistureString);

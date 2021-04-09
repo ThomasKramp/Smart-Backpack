@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class WeightFragment extends Fragment {
     private static final String TAG = "WeightFragment";
-    private static final String DATA_TAG = "Weight: ";
+    public static final String DATA_TAG = "Weight: ";
 
     EditText mUserWeightInput;
     TextView mMeasureData;
@@ -43,11 +43,11 @@ public class WeightFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 CheckUserWeightValidity();
-                CalculateBackPackWeight(MainActivity.WeightData);
+                CalculateBackPackWeight(MainActivity.ListToString(MainActivity.WeightData));
                 CheckBackPackWeight();
                 mMeasureData.setText("Backpack Weight: " + backPackWeight + " kg");
                 mWeightWarning.setText(WeightMessage);
-                mShowValues.setText(MainActivity.WeightData);
+                mShowValues.setText(MainActivity.ListToString(MainActivity.WeightData));
             }
         });
         return view;

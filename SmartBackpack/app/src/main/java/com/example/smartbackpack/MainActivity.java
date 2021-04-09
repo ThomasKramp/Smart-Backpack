@@ -20,6 +20,8 @@ import com.google.android.material.tabs.TabLayout;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements BluetoothReceiverListener {
@@ -27,8 +29,8 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     private BluetoothReceiver btReceiver;
     private PagerAdapter adapter;
     private static BluetoothTask bluetoothTask;
-    public static String WeightData = "";
-    public static String MoistureData = "";
+    public static List<String> WeightData;
+    public static List<String> MoistureData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,16 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         if (bluetoothTask != null) bluetoothTask.cancel(true);
     }
 
+    public static String ListToString(List<String> list){
+        StringBuilder str = new StringBuilder();
+        for (String string: list){
+            Log.d(TAG, "CheckBackPackWeight: Values: " + string);
+            if (string.isEmpty()) continue;
+            str.append(string);
+        }
+        return str.toString();
+    }
+
     @Override
     public void updateBluetoothSwitch(boolean update) {
         // Update switch
@@ -95,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     }
 
     public static final class BluetoothTask extends AsyncTask<Void, Void, Void> {
+        private static final String DATA_TAG = "\n";
         BluetoothSocket bluetoothSocket = null;
         InputStream inputStream = null;
 
@@ -128,8 +141,19 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                                 byte[] buffer = new byte[availableBytes];
                                 DataInputStream input = new DataInputStream(inputStream);
                                 input.readFully(buffer, 0, buffer.length);
-                                MainActivity.WeightData = new String(buffer);
-                                Log.d(TAG, "getData: " + MainActivity.WeightData);
+                                String data = new String(buffer);
+                                String[] separated = data.split(DATA_TAG);
+                                MainActivity.WeightData = new ArrayList<>();
+                                MainActivity.MoistureData = new ArrayList<>();
+                                for (String dataString: separated){
+                                    Log.d(TAG, "CheckBackPackWeight: Data: " + dataString);
+                                    if (dataString.isEmpty()) continue;
+                                    else if (dataString.contains(WeightFragment.DATA_TAG))
+                                        WeightData.add(dataString);
+                                    else if (dataString.contains(MoistureFragment.DATA_TAG))
+                                        MoistureData.add(dataString);
+                                }
+                                Log.d(TAG, "getData: " + data);
                                 //bluetoothSocket.close();
                             } catch (IOException e) { e.printStackTrace(); }
                         }

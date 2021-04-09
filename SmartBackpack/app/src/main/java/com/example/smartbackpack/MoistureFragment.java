@@ -1,5 +1,7 @@
 package com.example.smartbackpack;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,10 +10,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MoistureFragment extends Fragment {
     private static final String TAG = "MoistureFragment";
     public static final String DATA_TAG = "Moisture: ";
+
+    List<Button> Buttons = new ArrayList<>();
 
     public MoistureFragment() {
         // Required empty public constructor
@@ -20,11 +29,28 @@ public class MoistureFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_moisture, container, false);
+        View view = inflater.inflate(R.layout.fragment_moisture, container, false);
+        InitializeButtons(view, 8, "moistureSensor");
+
+        return view;
     }
 
-    private void GetBackPackMoisture(String moistureData) {
+    public void InitializeButtons(View view, int sensorAmount, String sensorPosition){
+        for (int sensor = 1; sensor <= sensorAmount; sensor++){
+            String button = sensorPosition + sensor;
+            int buttonId = getActivity().getResources().getIdentifier(button, "id", getActivity().getPackageName());
+            Button tempButton = view.findViewById(buttonId);
+            tempButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "onClick: hello");
+                }
+            });
+            Buttons.add(tempButton);
+        }
+    }
+
+    private void CheckBackPackMoisture(String moistureData) {
         if (!moistureData.isEmpty()){
             if (moistureData.length() >= 4 + DATA_TAG.length()){
                 String[] separated = moistureData.split(DATA_TAG);
@@ -40,7 +66,4 @@ public class MoistureFragment extends Fragment {
         } else Log.d(TAG, "CheckBackPackWeight: No Data Received");
     }
 
-    private void CheckBackPackMoisture() {
-
-    }
 }

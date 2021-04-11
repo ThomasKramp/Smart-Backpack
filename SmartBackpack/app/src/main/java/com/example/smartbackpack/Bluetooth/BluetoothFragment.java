@@ -104,8 +104,7 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener{
             @Override
             public void onClick(View v) {
                 if (selectedDevice != null){
-                    MainActivity.bluetoothTask = new MainActivity.BluetoothTask(mBluetoothAdapter, selectedDevice.getMacAddress());
-                    MainActivity.bluetoothTask.execute();
+                    MainActivity.StartBluetoothTask(mBluetoothAdapter, selectedDevice.getMacAddress());
                     Log.d(TAG, "Connect to " + selectedDevice.getName());
                     Log.d(TAG, "Address: " + selectedDevice.getMacAddress());
                 } else Toast.makeText(getActivity(), "No device selected", Toast.LENGTH_SHORT).show();

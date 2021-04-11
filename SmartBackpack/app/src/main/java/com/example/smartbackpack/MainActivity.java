@@ -6,6 +6,8 @@ import android.bluetooth.BluetoothSocket;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     private static final String TAG = "MainActivity";
     private BluetoothReceiver btReceiver;
     private PagerAdapter adapter;
-    public static BluetoothTask bluetoothTask;
+    private static BluetoothTask bluetoothTask;
     public static String Data = "";
 
     @Override
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(btReceiver);
+        if (bluetoothTask != null) bluetoothTask.cancel(true);
     }
 
     @Override
@@ -88,13 +91,19 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         BluetoothFragment.mBluetoothSwitch.setChecked(update);
     }
 
-    private void showToast(String message){
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    public static void StartBluetoothTask(BluetoothAdapter bluetoothAdapter, String MacAddress){
+        bluetoothTask = new MainActivity.BluetoothTask(bluetoothAdapter, MacAddress);
+        bluetoothTask.execute();
     }
 
     public static final class BluetoothTask extends AsyncTask<Void, Void, Void> {
         BluetoothSocket bluetoothSocket = null;
         InputStream inputStream = null;
+
+        private Runnable updater;
+        private boolean stop = false;
+        private int delay = 1000; // 1 seconden
+        final Handler timerHandler = new Handler();
 
         public BluetoothTask(BluetoothAdapter bluetoothAdapter, String MacAddress){
             try {
@@ -109,22 +118,40 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
 
         @Override
         protected Void doInBackground(Void... voids) {
-            try {
-                if (inputStream != null) {
+            updater = new Runnable() {
+                @Override
+                public void run() {
                     try {
-                        Thread.sleep(1000);
-                        int availableBytes = inputStream.available();
-                        byte[] buffer = new byte[availableBytes];
-                        DataInputStream input = new DataInputStream(inputStream);
-                        input.readFully(buffer, 0, buffer.length);
-                        MainActivity.Data = new String(buffer);
-                        Log.d(TAG, "getData: " + MainActivity.Data);
-                        bluetoothSocket.close();
-                    } catch (IOException e) { e.printStackTrace(); }
+                        if (inputStream != null) {
+                            try {
+                                Thread.sleep(1000);
+                                //bluetoothSocket.connect();
+                                int availableBytes = inputStream.available();
+                                byte[] buffer = new byte[availableBytes];
+                                DataInputStream input = new DataInputStream(inputStream);
+                                input.readFully(buffer, 0, buffer.length);
+                                MainActivity.Data = new String(buffer);
+                                Log.d(TAG, "getData: " + MainActivity.Data);
+                                //bluetoothSocket.close();
+                            } catch (IOException e) { e.printStackTrace(); }
+                        }
+                    } catch (Exception e) { e.printStackTrace(); }
+                    Log.d(TAG, "getData: done");
+                    // Zet de timer
+                    if(!stop) timerHandler.postDelayed(updater, delay);
                 }
-            } catch (Exception e) { e.printStackTrace(); }
-            Log.d(TAG, "getData: done");
+            };
+            timerHandler.post(updater);
             return null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            try { bluetoothSocket.close();
+            } catch (IOException e) { e.printStackTrace(); }
+            stop = true;
+            timerHandler.removeCallbacksAndMessages(null);
         }
     }
 }

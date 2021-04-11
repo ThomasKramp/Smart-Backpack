@@ -57,8 +57,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding2"
         android:text="Connect"
-        app:layout_constraintTop_toBottomOf="@id/show_devices_button"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/device_scroller"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/show_devices_button" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/device_scroller"

@@ -7,10 +7,7 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -30,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     private BluetoothReceiver btReceiver;
     private PagerAdapter adapter;
     private static BluetoothTask bluetoothTask;
-    public static String Data = "";
+    public static String WeightData = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,8 +127,8 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                                 byte[] buffer = new byte[availableBytes];
                                 DataInputStream input = new DataInputStream(inputStream);
                                 input.readFully(buffer, 0, buffer.length);
-                                MainActivity.Data = new String(buffer);
-                                Log.d(TAG, "getData: " + MainActivity.Data);
+                                MainActivity.WeightData = new String(buffer);
+                                Log.d(TAG, "getData: " + MainActivity.WeightData);
                                 //bluetoothSocket.close();
                             } catch (IOException e) { e.printStackTrace(); }
                         }

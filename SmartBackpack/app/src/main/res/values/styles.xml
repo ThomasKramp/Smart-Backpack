@@ -31,4 +31,9 @@
         <item name="android:textColor">@color/colorSecondary</item>
         <item name="android:background">@color/colorPrimary</item>
     </style>
+
+    <style name="SwitchStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/colorSecondaryDark</item>
+        <item name="thumbTint">@color/colorPrimary</item>
+    </style>
 </resources>

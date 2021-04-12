@@ -5,16 +5,20 @@
     android:id="@+id/bluetooth_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     tools:context=".Bluetooth.BluetoothFragment">
 
     <TextView
         android:id="@+id/bluetooth_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_gap"
+        android:layout_margin="0dp"
+        android:gravity="center"
         android:text="@string/bt_title"
-        android:textSize="@dimen/header1"
+        android:textSize="34dp"
         android:textStyle="bold"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,17 +30,23 @@
         android:layout_margin="@dimen/padding2"
         android:textSize="@dimen/header2"
         android:text="@string/bt_title_switch"
+        android:thumbTint="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryDark"
+        android:theme="@style/SwitchStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bluetooth_title"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        tools:ignore="UseSwitchCompatOrMaterialXml"/>
 
     <Button
         android:id="@+id/show_devices_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding2"
+        android:padding="5dp"
         android:text="Show paired devices"
+        android:background="@drawable/rounded_button"
+        android:theme="@style/ButtonVivid"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bluetooth_switch" />
@@ -48,6 +58,7 @@
         android:layout_margin="@dimen/padding2"
         android:text="Paired device: "
         android:textSize="@dimen/header2"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/show_devices_button" />
 
@@ -57,6 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding2"
         android:text="Connect"
+        android:theme="@style/ButtonVivid"
+        android:background="@drawable/rounded_button"
         app:layout_constraintBottom_toTopOf="@+id/device_scroller"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/show_devices_button" />

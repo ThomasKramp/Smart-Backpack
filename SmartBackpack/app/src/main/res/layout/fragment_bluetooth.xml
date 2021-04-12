@@ -5,15 +5,19 @@
     android:id="@+id/bluetooth_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     tools:context=".Bluetooth.BluetoothFragment">
 
     <TextView
         android:id="@+id/bluetooth_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_gap"
+        android:layout_margin="0dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
         android:text="@string/bt_title"
-        android:textSize="@dimen/header1"
+        android:textColor="@color/colorAccent"
+        android:textSize="34dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,8 +28,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding2"
-        android:textSize="@dimen/header2"
         android:text="@string/bt_title_switch"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/header2"
+        android:theme="@style/SwitchStyle"
+        android:thumbTint="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bluetooth_title"
@@ -36,7 +43,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding2"
+        android:background="@drawable/rounded_button"
+        android:padding="5dp"
         android:text="Show paired devices"
+        android:theme="@style/ButtonVivid"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bluetooth_switch" />
@@ -47,6 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding2"
         android:text="Paired device: "
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/header2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/show_devices_button" />
@@ -56,18 +67,65 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding2"
+        android:background="@drawable/rounded_button"
         android:text="Connect"
+        android:theme="@style/ButtonVivid"
         app:layout_constraintBottom_toTopOf="@+id/device_scroller"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/show_devices_button" />
 
+    <Button
+        android:id="@+id/BlueNot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Bluetooth"
+        app:layout_constraintEnd_toStartOf="@+id/ListNot"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/device_scroller" />
+
+    <Button
+        android:id="@+id/ListNot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginRight="76dp"
+        android:text="List"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/device_scroller" />
+
+    <Button
+        android:id="@+id/WeightNot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Weight"
+        app:layout_constraintEnd_toStartOf="@+id/MoisNot"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BlueNot" />
+
+    <Button
+        android:id="@+id/MoisNot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="76dp"
+        android:layout_marginRight="76dp"
+        android:text="Moisture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ListNot" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/device_scroller"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/padding2"
-        app:layout_constraintTop_toBottomOf="@id/paired_devices_text"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_width="377dp"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paired_devices_text">
 
     </androidx.recyclerview.widget.RecyclerView>
 

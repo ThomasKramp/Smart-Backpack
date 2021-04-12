@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         final ViewPager viewPager = findViewById(R.id.pager);
         adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(getIntent().getIntExtra("position", 0));
+
 
         // Setting a listener for clicks.
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                     public void onTabReselected(TabLayout.Tab tab) {
                     }
                 });
-
+        viewPager.setCurrentItem(getIntent().getIntExtra("position", 0));
         createNotificationChannel();
     }
 

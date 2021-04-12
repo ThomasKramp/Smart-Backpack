@@ -36,4 +36,10 @@
         <item name="colorControlActivated">@color/colorSecondaryDark</item>
         <item name="thumbTint">@color/colorPrimary</item>
     </style>
+
+    <style name="MyEditStyle" parent="Widget.AppCompat.EditText">
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+    </style>
 </resources>

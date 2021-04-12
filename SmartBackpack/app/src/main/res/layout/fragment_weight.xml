@@ -23,9 +23,10 @@
         android:id="@+id/user_weight_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding1"
-        android:textColor="@color/colorSecondaryDark"
+        android:layout_margin="16dp"
         android:inputType="numberDecimal"
+        android:textColor="@color/colorPrimaryDark"
+        android:theme="@style/MyEditStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/user_weight_text"
         app:layout_constraintTop_toTopOf="parent"/>

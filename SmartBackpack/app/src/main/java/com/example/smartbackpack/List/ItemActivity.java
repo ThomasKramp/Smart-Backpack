@@ -136,10 +136,10 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
         if (!item.isEmpty() && item != null){
             int itemId = this.getResources().getIdentifier(item.toLowerCase(), "drawable", this.getPackageName());
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), itemId);
-            if (bitmap.getWidth() >= 2500 || bitmap.getHeight() >= 2500)
-            vImage = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.1f), (int) (bitmap.getHeight() * 0.1f), false);
-            else
-                vImage = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.25f), (int) (bitmap.getHeight() * 0.25f), false);
+            float multiplier = 0.0f;
+            if (bitmap.getWidth() >= 2500 || bitmap.getHeight() >= 2500) multiplier = 0.1f;
+            else multiplier = 0.25f;
+            vImage = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * multiplier), (int) (bitmap.getHeight() * multiplier), false);
             mImageHolder.setImageBitmap(vImage);
         } else {
             mImageHolder.setImageResource(R.drawable.ic_no_image);

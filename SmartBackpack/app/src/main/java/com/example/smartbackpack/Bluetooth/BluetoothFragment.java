@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.smartbackpack.ListFragment;
 import com.example.smartbackpack.MainActivity;
 import com.example.smartbackpack.R;
 
@@ -48,6 +50,11 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener{
     DeviceAdapter mDeviceAdapter;
     RecyclerView mRecyclerView;
     public DeviceItem selectedDevice;
+
+    private Button BlueNoty;
+    private Button ListNoty;
+    private Button WeightNoty;
+    private Button MoistNoty;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -110,6 +117,52 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener{
                 } else Toast.makeText(getActivity(), "No device selected", Toast.LENGTH_SHORT).show();
             }
         });
+
+        BlueNoty = view.findViewById(R.id.BlueNot);
+        BlueNoty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendBlueNot();
+            }
+        });
+        ListNoty = view.findViewById(R.id.ListNot);
+        ListNoty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendListNot();
+            }
+        });
+        WeightNoty = view.findViewById(R.id.WeightNot);
+        WeightNoty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendWeightNot();
+            }
+        });
+        MoistNoty = view.findViewById(R.id.MoisNot);
+        MoistNoty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMoistNot();
+            }
+        });
+    }
+
+    public void sendBlueNot(){
+        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(getContext(), "Bluetooth");
+        MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
+    }
+    public void sendListNot(){
+        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(getContext(), "List");
+        MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
+    }
+    public void sendWeightNot(){
+        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(getContext(), "Weight");
+        MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
+    }
+    public void sendMoistNot(){
+        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(getContext(), "Moisture");
+        MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
     }
 
     private void checkToggle() {

@@ -4,10 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorAccent"
         tools:context=".List.ItemActivity">
 
         <TextView
@@ -17,6 +19,7 @@
             android:layout_margin="@dimen/padding1"
             android:text="@string/recycler_name_example"
             android:textSize="@dimen/header1"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,6 +30,7 @@
             android:layout_margin="8dp"
             android:text="MAC: "
             android:textSize="@dimen/header2"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/device_item_name" />
 
@@ -37,6 +41,7 @@
             android:layout_margin="8dp"
             android:text="@string/recycler_amount_example"
             android:textSize="@dimen/header2"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintBaseline_toBaselineOf="@id/default_device_text"
             app:layout_constraintStart_toEndOf="@id/default_device_text" />
 

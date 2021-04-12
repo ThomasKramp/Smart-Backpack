@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/colorAccent"
     android:layout_height="match_parent"
     tools:context=".List.ItemActivity">
 
@@ -48,10 +49,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding1"
+        android:theme="@style/MyEditStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/name_text"
         app:layout_constraintTop_toBottomOf="@id/pre_set_item_text"
-        android:textColor="@color/colorSecondaryDark"/>
+        android:textColor="@color/colorPrimaryDark"/>
 
     <!--Amount Item-->
     <TextView
@@ -72,10 +74,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding1"
         android:inputType="numberDecimal"
+        android:theme="@style/MyEditStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/amount_text"
         app:layout_constraintTop_toBottomOf="@id/name_input"
-        android:textColor="@color/colorSecondaryDark"/>
+        android:textColor="@color/colorPrimaryDark"/>
 
     <ImageView
         android:id="@+id/image_holder"

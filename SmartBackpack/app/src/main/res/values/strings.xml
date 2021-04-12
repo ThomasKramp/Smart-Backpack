@@ -2,7 +2,7 @@
     <string name="app_name">SmartBackpack</string>
     <string name="title">Smart Backpack</string>
 
-    <string name="TabLabel1">Home</string>
+    <string name="TabLabel1">Bluetooth</string>
     <string name="TabLabel2">Moisture</string>
     <string name="TabLabel3">Weight</string>
     <string name="TabLabel4">List</string>

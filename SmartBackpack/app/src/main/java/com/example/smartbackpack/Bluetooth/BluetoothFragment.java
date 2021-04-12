@@ -140,6 +140,7 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener{
                 }
             }
         });
+
     }
 
     private void enableOptions(int visibility) {

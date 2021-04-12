@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     private static BluetoothTask bluetoothTask;
     public static List<String> WeightData;
     public static List<String> MoistureData;
+    ViewPager viewPager;
+    int currentTabIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
 
         // Use PagerAdapter to manage page views in fragments.
         // Each page is represented by its own fragment.
-        final ViewPager viewPager = findViewById(R.id.pager);
+        viewPager = findViewById(R.id.pager);
         adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
 
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         viewPager.setCurrentItem(tab.getPosition());
+                        currentTabIndex = tab.getPosition();
+                        Log.d(TAG, String.valueOf(currentTabIndex));
                     }
 
                     @Override
@@ -76,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                     public void onTabReselected(TabLayout.Tab tab) {
                     }
                 });
+
+
     }
 
     @Override
@@ -97,8 +103,8 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
 
     @Override
     public void updateBluetoothSwitch(boolean update) {
-        // Update switch
-        BluetoothFragment.mBluetoothSwitch.setChecked(update);
+        if (currentTabIndex <= 1)
+            BluetoothFragment.mBluetoothSwitch.setChecked(update);
     }
 
     public static void StartBluetoothTask(BluetoothAdapter bluetoothAdapter, String MacAddress){

@@ -1,15 +1,21 @@
 package com.example.smartbackpack;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.smartbackpack.Bluetooth.BluetoothFragment;
@@ -31,6 +37,11 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     private static BluetoothTask bluetoothTask;
     public static List<String> WeightData;
     public static List<String> MoistureData;
+
+    private static final String PRIMARY_CHANNEL_ID = "primary_notification_channel";
+    public static NotificationManager mNotifyManager;
+    public static final int NOTIFICATION_ID = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
 
+
         // Setting a listener for clicks.
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -76,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                     public void onTabReselected(TabLayout.Tab tab) {
                     }
                 });
+        viewPager.setCurrentItem(getIntent().getIntExtra("position", 0));
+        createNotificationChannel();
     }
 
     @Override
@@ -84,6 +98,82 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         unregisterReceiver(btReceiver);
         if (bluetoothTask != null) bluetoothTask.cancel(true);
     }
+
+    public void createNotificationChannel() {
+        mNotifyManager = (NotificationManager)
+                getSystemService(NOTIFICATION_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >=
+                android.os.Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(PRIMARY_CHANNEL_ID,
+                    "Mascot Notification", NotificationManager
+                    .IMPORTANCE_HIGH);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.enableVibration(true);
+            notificationChannel.setDescription("Notification from Mascot");
+            mNotifyManager.createNotificationChannel(notificationChannel);
+        }
+    }
+    public static NotificationCompat.Builder getNotificationBuilder(android.content.Context context, String id){
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        if (id == "Bluetooth"){
+            notificationIntent.putExtra("position", 0);
+        }
+        else if(id == "Weight"){
+            notificationIntent.putExtra("position", 2);
+        }
+        else if(id == "Moisture"){
+            notificationIntent.putExtra("position", 1);
+        }
+        else if(id == "List"){
+            notificationIntent.putExtra("position", 3);
+        }
+
+        PendingIntent notificationPendingIntent = PendingIntent.getActivity(context, NOTIFICATION_ID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder notifyBuilder;
+        if (id == "Bluetooth"){
+            notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
+                    .setContentTitle("Connection Lost!")
+                    .setContentText("The connection to Bluetooth has been lost!")
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentIntent(notificationPendingIntent)
+                    .setAutoCancel(true);
+        }
+        else if (id == "Weight"){
+            notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
+                    .setContentTitle("Weight Exceeded!")
+                    .setContentText("The weight limit of your backpack has been exceeded")
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentIntent(notificationPendingIntent)
+                    .setAutoCancel(true);
+        }
+        else if (id == "List"){
+            notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
+                    .setContentTitle("Item Lost")
+                    .setContentText("You may have lost an item!")
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentIntent(notificationPendingIntent)
+                    .setAutoCancel(true);
+        }
+        else if (id == "Moisture"){
+            notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
+                    .setContentTitle("Wetness!!")
+                    .setContentText("There has been a leak!!")
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentIntent(notificationPendingIntent)
+                    .setAutoCancel(true);
+        }
+        else{
+            notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
+                    .setContentTitle("You've been notified!")
+                    .setContentText("This is your notification text.")
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentIntent(notificationPendingIntent)
+                    .setAutoCancel(true);
+        }
+        return notifyBuilder;
+    }
+
 
     public static String ListToString(List<String> list){
         StringBuilder str = new StringBuilder();

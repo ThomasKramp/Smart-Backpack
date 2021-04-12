@@ -2,9 +2,11 @@ package com.example.smartbackpack;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         final ViewPager viewPager = findViewById(R.id.pager);
         adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(getIntent().getIntExtra("position", 0));
 
         // Setting a listener for clicks.
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -112,36 +115,61 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         }
     }
     public static NotificationCompat.Builder getNotificationBuilder(android.content.Context context, String id){
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        if (id == "Bluetooth"){
+            notificationIntent.putExtra("position", 0);
+        }
+        else if(id == "Weight"){
+            notificationIntent.putExtra("position", 2);
+        }
+        else if(id == "Moisture"){
+            notificationIntent.putExtra("position", 1);
+        }
+        else if(id == "List"){
+            notificationIntent.putExtra("position", 3);
+        }
+
+        PendingIntent notificationPendingIntent = PendingIntent.getActivity(context, NOTIFICATION_ID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder notifyBuilder;
         if (id == "Bluetooth"){
             notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
                     .setContentTitle("Connection Lost!")
                     .setContentText("The connection to Bluetooth has been lost!")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground);
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentIntent(notificationPendingIntent)
+                    .setAutoCancel(true);
         }
         else if (id == "Weight"){
             notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
                     .setContentTitle("Weight Exceeded!")
                     .setContentText("The weight limit of your backpack has been exceeded")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground);
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentIntent(notificationPendingIntent)
+                    .setAutoCancel(true);
         }
         else if (id == "List"){
             notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
                     .setContentTitle("Item Lost")
                     .setContentText("You may have lost an item!")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground);
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentIntent(notificationPendingIntent)
+                    .setAutoCancel(true);
         }
         else if (id == "Moisture"){
             notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
                     .setContentTitle("Wetness!!")
                     .setContentText("There has been a leak!!")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground);
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentIntent(notificationPendingIntent)
+                    .setAutoCancel(true);
         }
         else{
             notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
                     .setContentTitle("You've been notified!")
                     .setContentText("This is your notification text.")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground);
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentIntent(notificationPendingIntent)
+                    .setAutoCancel(true);
         }
         return notifyBuilder;
     }

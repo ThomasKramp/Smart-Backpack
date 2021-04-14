@@ -18,9 +18,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.smartbackpack.Bluetooth.BluetoothFragment;
 import com.example.smartbackpack.Bluetooth.BluetoothReceiver;
 import com.example.smartbackpack.Bluetooth.BluetoothReceiverListener;
+import com.example.smartbackpack.Fragments.BluetoothFragment;
+import com.example.smartbackpack.Fragments.MoistureFragment;
+import com.example.smartbackpack.Fragments.PagerAdapter;
+import com.example.smartbackpack.Fragments.WeightFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.DataInputStream;
@@ -73,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
 
-
         // Setting a listener for clicks.
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -93,9 +95,9 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                     }
                 });
 
-        viewPager.setCurrentItem(getIntent().getIntExtra("position", 0));
+        Intent data = getIntent();
+        if (data != null) viewPager.setCurrentItem(data.getIntExtra("position", 0));
         createNotificationChannel();
-
     }
 
     @Override
@@ -111,8 +113,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         if (android.os.Build.VERSION.SDK_INT >=
                 android.os.Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(PRIMARY_CHANNEL_ID,
-                    "Mascot Notification", NotificationManager
-                    .IMPORTANCE_HIGH);
+                    "Mascot Notification", NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.RED);
             notificationChannel.enableVibration(true);
@@ -157,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         notifyBuilder.setContentIntent(notificationPendingIntent);
         return notifyBuilder;
     }
-
 
     public static String ListToString(List<String> list){
         StringBuilder str = new StringBuilder();

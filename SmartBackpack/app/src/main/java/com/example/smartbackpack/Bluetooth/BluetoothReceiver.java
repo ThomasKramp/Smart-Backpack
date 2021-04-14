@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.example.smartbackpack.Fragments.BluetoothFragment;
+
 public class BluetoothReceiver extends BroadcastReceiver {
     private BluetoothReceiverListener listener;
 

@@ -1,8 +1,7 @@
-package com.example.smartbackpack.Bluetooth;
+package com.example.smartbackpack.Fragments;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,18 +21,16 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.smartbackpack.ListFragment;
+import com.example.smartbackpack.Bluetooth.DeviceAdapter;
+import com.example.smartbackpack.Bluetooth.DeviceItem;
+import com.example.smartbackpack.Bluetooth.DeviceItemListener;
 import com.example.smartbackpack.MainActivity;
 import com.example.smartbackpack.R;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.UUID;
 
-public class BluetoothFragment extends Fragment implements DeviceItemListener{
+public class BluetoothFragment extends Fragment implements DeviceItemListener {
     private static final String TAG = "BluetoothFragment";
     public static final String BT_ON_MESSAGE = "Bluetooth enabled";
     public static final String BT_OFF_MESSAGE = "Bluetooth disabled";
@@ -55,6 +52,8 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener{
     private Button ListNoty;
     private Button WeightNoty;
     private Button MoistNoty;
+
+    public BluetoothFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

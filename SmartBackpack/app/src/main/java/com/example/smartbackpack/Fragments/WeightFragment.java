@@ -1,4 +1,4 @@
-package com.example.smartbackpack;
+package com.example.smartbackpack.Fragments;
 
 import android.os.Bundle;
 
@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.smartbackpack.MainActivity;
+import com.example.smartbackpack.R;
 
 public class WeightFragment extends Fragment {
     private static final String TAG = "WeightFragment";

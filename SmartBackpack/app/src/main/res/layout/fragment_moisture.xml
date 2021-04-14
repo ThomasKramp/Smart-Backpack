@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
-    tools:context=".MoistureFragment">
+    tools:context=".Fragments.MoistureFragment">
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/moistureGrid"

@@ -126,35 +126,30 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener {
         BlueNoty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendNotification("Bluetooth");
+                MainActivity.sendNotification(getContext(), "Bluetooth", "The connection to Bluetooth has been lost!");
             }
         });
         ListNoty = view.findViewById(R.id.ListNot);
         ListNoty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendNotification("List");
+                MainActivity.sendNotification(getContext(), "List", "You may have lost an item!");
             }
         });
         WeightNoty = view.findViewById(R.id.WeightNot);
         WeightNoty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendNotification("Weight");
+                MainActivity.sendNotification(getContext(), "Weight", "The weight limit of your backpack has been exceeded");
             }
         });
         MoistNoty = view.findViewById(R.id.MoisNot);
         MoistNoty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendNotification("Moisture");
+                MainActivity.sendNotification(getContext(), "Moisture", "There has been a leak!!");
             }
         });
-    }
-
-    public void sendNotification(String goToFragment){
-        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(getContext(), goToFragment);
-        MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
     }
 
     private void checkToggle() {

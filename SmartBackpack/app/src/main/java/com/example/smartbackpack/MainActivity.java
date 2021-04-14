@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -114,50 +115,51 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         if (android.os.Build.VERSION.SDK_INT >=
                 android.os.Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(PRIMARY_CHANNEL_ID,
-                    "Mascot Notification", NotificationManager.IMPORTANCE_HIGH);
+                    "Backpack Problems", NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.RED);
             notificationChannel.enableVibration(true);
-            notificationChannel.setDescription("Notification from Mascot");
+            notificationChannel.setDescription("Backpack Problems");
             mNotifyManager.createNotificationChannel(notificationChannel);
         }
     }
 
-    public static NotificationCompat.Builder getNotificationBuilder(android.content.Context context, String id){
+    public static NotificationCompat.Builder getNotificationBuilder(android.content.Context context,
+                                                                    String id, String message){
         Intent notificationIntent = new Intent(context, MainActivity.class);
         NotificationCompat.Builder notifyBuilder =  new NotificationCompat
                 .Builder(context,PRIMARY_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentText(message)
                 .setAutoCancel(true);
         switch (id) {
             case "Bluetooth":
                 notificationIntent.putExtra("position", 0);
-                notifyBuilder.setContentTitle("Connection Lost!")
-                        .setContentText("The connection to Bluetooth has been lost!");
+                notifyBuilder.setContentTitle("Connection Lost!");
                 break;
             case "Moisture":
                 notificationIntent.putExtra("position", 1);
-                notifyBuilder.setContentTitle("Weight Exceeded!")
-                    .setContentText("The weight limit of your backpack has been exceeded");
+                notifyBuilder.setContentTitle("Weight Exceeded!");
                 break;
             case "Weight":
                 notificationIntent.putExtra("position", 2);
-                notifyBuilder.setContentTitle("Item Lost")
-                    .setContentText("You may have lost an item!");
+                notifyBuilder.setContentTitle("Item Lost");
                 break;
             case "List":
                 notificationIntent.putExtra("position", 3);
-                notifyBuilder.setContentTitle("Wetness!!")
-                    .setContentText("There has been a leak!!");
+                notifyBuilder.setContentTitle("Wetness!!");
                 break;
             default:
-                notifyBuilder.setContentTitle("You've been notified!")
-                    .setContentText("This is your notification text.");
                 break;
         }
         PendingIntent notificationPendingIntent = PendingIntent.getActivity(context, NOTIFICATION_ID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         notifyBuilder.setContentIntent(notificationPendingIntent);
         return notifyBuilder;
+    }
+
+    public static void sendNotification(Context context, String goToFragment, String message){
+        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(context, goToFragment, message);
+        MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
     }
 
     public static String ListToString(List<String> list){

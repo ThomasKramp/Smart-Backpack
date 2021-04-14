@@ -32,8 +32,6 @@ import java.util.Set;
 
 public class BluetoothFragment extends Fragment implements DeviceItemListener {
     private static final String TAG = "BluetoothFragment";
-    public static final String BT_ON_MESSAGE = "Bluetooth enabled";
-    public static final String BT_OFF_MESSAGE = "Bluetooth disabled";
 
     private BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private Set<BluetoothDevice> pairedDevices;
@@ -47,11 +45,6 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener {
     DeviceAdapter mDeviceAdapter;
     RecyclerView mRecyclerView;
     public DeviceItem selectedDevice;
-
-    /*  Bugs:
-            App crashes if searching for bluetooth without bluetooth on
-            ListPaired devices shows every device multiple times on clicking show multiple times
-     */
 
     public BluetoothFragment() { /* Required empty public constructor */ }
 
@@ -71,11 +64,13 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Creates device list
         mRecyclerView = view.findViewById(R.id.device_scroller);
         mDeviceAdapter = new DeviceAdapter(getContext(), devices, this);
         mRecyclerView.setAdapter(mDeviceAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // Binds widgets
         mShowDevicesButton = view.findViewById(R.id.show_devices_button);
         mConnectButton = view.findViewById(R.id.connect_button);
         mPairedDeviceText = view.findViewById(R.id.paired_devices_text);
@@ -87,21 +82,21 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener {
         mShowDevicesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pairedDevices = mBluetoothAdapter.getBondedDevices();
-                if (pairedDevices.size() > 0) {
-                    Log.d(TAG, "start getting paired devices!");
-                    for (BluetoothDevice device: pairedDevices) {
-                        DeviceItem deviceItem = new DeviceItem(device.getName(), device.getAddress());
-                        if (!devices.contains(deviceItem)){
-                            devices.add(deviceItem);
-                            Log.d(TAG, "Name: " + deviceItem.getName() + ", MAC Address: " + deviceItem.getMacAddress());
+                if (mBluetoothSwitch.isEnabled()){
+                    pairedDevices = mBluetoothAdapter.getBondedDevices();
+                    if (pairedDevices.size() > 0) {
+                        Log.d(TAG, "start getting paired devices!");
+                        for (BluetoothDevice device: pairedDevices) {
+                            DeviceItem deviceItem = new DeviceItem(device.getName(), device.getAddress());
+                            if (!deviceItem.gotDevice(devices)){
+                                devices.add(deviceItem);
+                                Log.d(TAG, "onClick: Name: " + deviceItem.getName() + ", MAC Address: " + deviceItem.getMacAddress());
+                            }
                         }
-                    }
+                        Log.d(TAG, "onClick: Showing paired devices");
+                    } else Toast.makeText(getActivity(), "No paired devices", Toast.LENGTH_SHORT).show();
                     mDeviceAdapter.notifyDataSetChanged();
-                    Toast.makeText(getActivity(), "Showing paired devices", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), "No paired devices", Toast.LENGTH_SHORT).show();
-                }
+                } else Log.d(TAG, "onClick: Bluetooth is of");
             }
         });
 
@@ -122,7 +117,6 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener {
         if (mBluetoothAdapter != null) {
             if (mBluetoothAdapter.isEnabled()) {
                 mBluetoothSwitch.setChecked(true);
-                Toast.makeText(getActivity(), BT_ON_MESSAGE, Toast.LENGTH_SHORT).show();
                 enableOptions(View.VISIBLE);
             } else {
                 mBluetoothSwitch.setChecked(false);
@@ -137,11 +131,9 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     mBluetoothAdapter.enable();
-                    Toast.makeText(getActivity(), BT_ON_MESSAGE, Toast.LENGTH_SHORT).show();
                     enableOptions(View.VISIBLE);
                 } else {
                     mBluetoothAdapter.disable();
-                    Toast.makeText(getActivity(), BT_OFF_MESSAGE, Toast.LENGTH_SHORT).show();
                     enableOptions(View.INVISIBLE);
                 }
             }

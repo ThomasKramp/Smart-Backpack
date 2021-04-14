@@ -130,13 +130,14 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         Intent notificationIntent = new Intent(context, MainActivity.class);
         NotificationCompat.Builder notifyBuilder =  new NotificationCompat
                 .Builder(context,PRIMARY_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setAutoCancel(true);
         switch (id) {
             case BLUETOOTH:
                 notificationIntent.putExtra("position", 0);
                 notifyBuilder.setContentTitle("Connection Lost!")
                         .setContentText("Lost the Bluetooth connection");
+                StopBluetoothTask();
                 break;
             case MOISTURE:
                 notificationIntent.putExtra("position", 1);
@@ -187,6 +188,10 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         bluetoothTask = new MainActivity.BluetoothTask(context, bluetoothAdapter, MacAddress);
         bluetoothTask.execute();
     }
+    public static void StopBluetoothTask(){
+        if (bluetoothTask != null)
+            bluetoothTask.cancel(true);
+    }
 
     public static final class BluetoothTask extends AsyncTask<Void, Void, Void> {
         final String DATA_TAG = "\n";
@@ -195,7 +200,6 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         Context mContext;
 
         Runnable updater;
-        boolean stop = false;
         int delay = 10000; // 10 seconden
         final Handler timerHandler = new Handler();
 
@@ -225,6 +229,8 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                                 Thread.sleep(1000);
                                 // Receive all send bits
                                 int availableBytes = inputStream.available();
+                                if (availableBytes == 0)
+                                    MainActivity.sendNotification(mContext, NotificationId.BLUETOOTH);
                                 byte[] buffer = new byte[availableBytes];
                                 DataInputStream input = new DataInputStream(inputStream);
                                 // Put all received bits into string format
@@ -247,8 +253,10 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                                 for (Button sensor: MoistureFragment.Sensors)
                                     MoistureFragment.CheckBackPackMoisture(sensor, MainActivity.MoistureData);
                                 // Send notification if moisture sensor is triggered
-                                if (MoistureFragment.TriggeredSensors)
+                                if (MoistureFragment.TriggeredSensors){
                                     MainActivity.sendNotification(mContext, NotificationId.MOISTURE);
+                                    MoistureFragment.TriggeredSensors = false;
+                                }
                             } catch (IOException e) {
                                 // Send notification if bluetooth connection fails
                                 e.printStackTrace();
@@ -262,7 +270,8 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                     }
                     Log.d(TAG, "getData: done");
                     // Sets the timer
-                    if(!stop) timerHandler.postDelayed(updater, delay);
+                    if(!isCancelled())
+                        timerHandler.postDelayed(updater, delay);
                 }
             };
             timerHandler.post(updater);
@@ -274,7 +283,6 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
             super.onCancelled();
             try { bluetoothSocket.close();
             } catch (IOException e) { e.printStackTrace(); }
-            stop = true;
             timerHandler.removeCallbacksAndMessages(null);
         }
     }

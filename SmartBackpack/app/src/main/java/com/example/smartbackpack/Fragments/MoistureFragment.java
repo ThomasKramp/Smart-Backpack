@@ -20,6 +20,7 @@ public class MoistureFragment extends Fragment {
     private static final String TAG = "MoistureFragment";
     public static final String DATA_TAG = "Moisture: ";
     public static List<Button> Sensors = new ArrayList<>();
+    public static boolean TriggeredSensors = false;
 
     public MoistureFragment() { /* Required empty public constructor */ }
 
@@ -49,10 +50,11 @@ public class MoistureFragment extends Fragment {
             if (data.length() > DATA_TAG.length()){
                 data = data.substring(DATA_TAG.length());
                 int moistureLevel = Integer.parseInt(data);
-                if (moistureLevel != 0) sensor.setBackgroundResource(R.color.colorPrimaryDark);
-                else sensor.setBackgroundResource(R.color.colorPrimary);
+                if (moistureLevel != 0) {
+                    sensor.setBackgroundResource(R.color.colorPrimaryDark);
+                    TriggeredSensors = true;
+                } else sensor.setBackgroundResource(R.color.colorPrimary);
             }
         } else Log.d(TAG, "CheckBackPackWeight: No Data Received");
     }
-
 }

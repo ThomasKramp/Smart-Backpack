@@ -87,9 +87,10 @@ public class WeightFragment extends Fragment {
         // Therefore the maximum is value (4096) will be reverted to 25 kilograms
         backPackWeight = backPackWeight * 25.0 / 4096.0;
         backPackWeight = Math.round(backPackWeight * 100) / 100.0;  // 2 Decimals after comma
-        if (backPackWeight >= userWeight * 0.20)
+        if (backPackWeight >= userWeight * 0.20) {
             WeightMessage = "You're carrying too much!!!";
-        else if (backPackWeight >= userWeight * 0.10)
+            MainActivity.sendNotification(getContext(), NotificationId.LIST);
+        } else if (backPackWeight >= userWeight * 0.10)
             WeightMessage = "It's going to be rough, but doable";
         else
             WeightMessage = "You're fine";

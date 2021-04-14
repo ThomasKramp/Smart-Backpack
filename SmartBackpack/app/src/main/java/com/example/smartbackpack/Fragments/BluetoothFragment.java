@@ -48,11 +48,6 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener {
     RecyclerView mRecyclerView;
     public DeviceItem selectedDevice;
 
-    private Button BlueNoty;
-    private Button ListNoty;
-    private Button WeightNoty;
-    private Button MoistNoty;
-
     /*  Bugs:
             App crashes if searching for bluetooth without bluetooth on
             ListPaired devices shows every device multiple times on clicking show multiple times
@@ -115,39 +110,10 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener {
             @Override
             public void onClick(View v) {
                 if (selectedDevice != null){
-                    MainActivity.StartBluetoothTask(mBluetoothAdapter, selectedDevice.getMacAddress());
+                    MainActivity.StartBluetoothTask(getContext(), mBluetoothAdapter, selectedDevice.getMacAddress());
                     Log.d(TAG, "Connect to " + selectedDevice.getName());
                     Log.d(TAG, "Address: " + selectedDevice.getMacAddress());
                 } else Toast.makeText(getActivity(), "No device selected", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        BlueNoty = view.findViewById(R.id.BlueNot);
-        BlueNoty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.sendNotification(getContext(), "Bluetooth", "The connection to Bluetooth has been lost!");
-            }
-        });
-        ListNoty = view.findViewById(R.id.ListNot);
-        ListNoty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.sendNotification(getContext(), "List", "You may have lost an item!");
-            }
-        });
-        WeightNoty = view.findViewById(R.id.WeightNot);
-        WeightNoty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.sendNotification(getContext(), "Weight", "The weight limit of your backpack has been exceeded");
-            }
-        });
-        MoistNoty = view.findViewById(R.id.MoisNot);
-        MoistNoty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.sendNotification(getContext(), "Moisture", "There has been a leak!!");
             }
         });
     }

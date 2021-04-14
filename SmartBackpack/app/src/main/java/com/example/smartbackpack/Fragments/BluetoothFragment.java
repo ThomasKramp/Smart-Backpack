@@ -53,7 +53,12 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener {
     private Button WeightNoty;
     private Button MoistNoty;
 
-    public BluetoothFragment() {}
+    /*  Bugs:
+            App crashes if searching for bluetooth without bluetooth on
+            ListPaired devices shows every device multiple times on clicking show multiple times
+     */
+
+    public BluetoothFragment() { /* Required empty public constructor */ }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,46 +126,34 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener {
         BlueNoty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendBlueNot();
+                sendNotification("Bluetooth");
             }
         });
         ListNoty = view.findViewById(R.id.ListNot);
         ListNoty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendListNot();
+                sendNotification("List");
             }
         });
         WeightNoty = view.findViewById(R.id.WeightNot);
         WeightNoty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendWeightNot();
+                sendNotification("Weight");
             }
         });
         MoistNoty = view.findViewById(R.id.MoisNot);
         MoistNoty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendMoistNot();
+                sendNotification("Moisture");
             }
         });
     }
 
-    public void sendBlueNot(){
-        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(getContext(), "Bluetooth");
-        MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
-    }
-    public void sendListNot(){
-        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(getContext(), "List");
-        MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
-    }
-    public void sendWeightNot(){
-        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(getContext(), "Weight");
-        MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
-    }
-    public void sendMoistNot(){
-        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(getContext(), "Moisture");
+    public void sendNotification(String goToFragment){
+        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(getContext(), goToFragment);
         MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
     }
 

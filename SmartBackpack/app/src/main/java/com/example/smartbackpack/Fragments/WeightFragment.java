@@ -28,9 +28,7 @@ public class WeightFragment extends Fragment {
     double backPackWeight = 0;   // Weight in kilogram
     String WeightMessage = "";
 
-    public WeightFragment() {
-        // Required empty public constructor
-    }
+    public WeightFragment() { /* Required empty public constructor */ }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

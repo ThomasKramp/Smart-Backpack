@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -187,11 +188,12 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
 
         private Runnable updater;
         private boolean stop = false;
-        private int delay = 1000; // 1 seconden
+        private int delay = 1000; // 10 seconden
         final Handler timerHandler = new Handler();
 
         public BluetoothTask(BluetoothAdapter bluetoothAdapter, String MacAddress){
             try {
+                // Connect to remote device via bluetooth
                 BluetoothDevice btDevice = bluetoothAdapter.getRemoteDevice(MacAddress);
                 bluetoothSocket = btDevice.createInsecureRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
                 bluetoothSocket.connect();
@@ -209,13 +211,17 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                     try {
                         if (inputStream != null) {
                             try {
+                                // Wait for all bits to be send
                                 Thread.sleep(1000);
-                                //bluetoothSocket.connect();
+                                // Receive all send bits
                                 int availableBytes = inputStream.available();
                                 byte[] buffer = new byte[availableBytes];
                                 DataInputStream input = new DataInputStream(inputStream);
+                                // Put all received bits into string format
                                 input.readFully(buffer, 0, buffer.length);
                                 String data = new String(buffer);
+                                Log.d(TAG, "getData: " + data);
+                                // Separate weight and moisture data
                                 String[] separated = data.split(DATA_TAG);
                                 MainActivity.WeightData = new ArrayList<>();
                                 MainActivity.MoistureData = new ArrayList<>();
@@ -227,13 +233,14 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                                     else if (dataString.contains(MoistureFragment.DATA_TAG))
                                         MoistureData.add(dataString);
                                 }
-                                Log.d(TAG, "getData: " + data);
-                                //bluetoothSocket.close();
+                                // Continues moisture check
+                                for (Button sensor: MoistureFragment.Sensors)
+                                    MoistureFragment.CheckBackPackMoisture(sensor, MainActivity.MoistureData);
                             } catch (IOException e) { e.printStackTrace(); }
                         }
                     } catch (Exception e) { e.printStackTrace(); }
                     Log.d(TAG, "getData: done");
-                    // Zet de timer
+                    // Sets the timer
                     if(!stop) timerHandler.postDelayed(updater, delay);
                 }
             };

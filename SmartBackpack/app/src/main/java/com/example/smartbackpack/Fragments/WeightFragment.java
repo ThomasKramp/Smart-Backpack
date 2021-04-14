@@ -40,7 +40,8 @@ public class WeightFragment extends Fragment {
         mWeightWarning = view.findViewById(R.id.weight_warning);
         mShowValues = view.findViewById(R.id.view_data);
 
-        view.findViewById(R.id.measure_weight_button).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.measure_weight_button);
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CheckUserWeightValidity();
@@ -65,6 +66,12 @@ public class WeightFragment extends Fragment {
     }
 
     private void CalculateBackPackWeight(String weightData) {
+        try {
+            Thread.sleep(5000);
+            Toast.makeText(getContext(), "Stand still for measurements", Toast.LENGTH_LONG).show();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (!weightData.isEmpty()){
             if (weightData.length() >= 4 + DATA_TAG.length()){
                 String[] separated = weightData.split(DATA_TAG);

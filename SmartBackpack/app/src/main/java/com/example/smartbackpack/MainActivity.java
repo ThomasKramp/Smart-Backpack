@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     private static BluetoothTask bluetoothTask;
     public static List<String> WeightData;
     public static List<String> MoistureData;
+    public static Boolean BluetoothConnected = false;
     ViewPager viewPager;
     int currentTabIndex;
 
@@ -249,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                                     else if (dataString.contains(MoistureFragment.DATA_TAG))
                                         MoistureData.add(dataString);
                                 }
+                                MainActivity.BluetoothConnected = true;
                                 // Continues moisture check
                                 for (Button sensor: MoistureFragment.Sensors)
                                     MoistureFragment.CheckBackPackMoisture(sensor, MainActivity.MoistureData);
@@ -283,6 +285,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
             super.onCancelled();
             try { bluetoothSocket.close();
             } catch (IOException e) { e.printStackTrace(); }
+            MainActivity.BluetoothConnected = false;
             timerHandler.removeCallbacksAndMessages(null);
         }
     }

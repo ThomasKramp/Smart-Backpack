@@ -42,11 +42,14 @@ public class WeightFragment extends Fragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheckUserWeightValidity();
-                CalculateBackPackWeight(MainActivity.ListToString(MainActivity.WeightData));
-                CheckBackPackWeight();
-                mMeasureData.setText("Backpack Weight: " + backPackWeight + " kg");
-                mWeightWarning.setText(WeightMessage);
+                if (MainActivity.BluetoothConnected){
+                    CheckUserWeightValidity();
+                    CalculateBackPackWeight(MainActivity.ListToString(MainActivity.WeightData));
+                    CheckBackPackWeight();
+                    mMeasureData.setText("Backpack Weight: " + backPackWeight + " kg");
+                    mWeightWarning.setText(WeightMessage);
+                } else
+                    mWeightWarning.setText("There is no Bluetooth Connection");
             }
         });
         return view;

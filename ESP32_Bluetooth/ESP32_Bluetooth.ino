@@ -7,7 +7,7 @@
 BluetoothSerial SerialBT;
 
 bool config = true;
-int waarde = 0;
+float waarde = 0;
 #define pot 32
 
 void setup() {
@@ -18,14 +18,14 @@ void setup() {
 }
 
 void loop() {
-  waarde = analogRead(pot);
+  waarde = analogRead(pot) / 204.75;
   SerialBT.print("Weight: ");
   SerialBT.print(waarde);
   SerialBT.print('\n');
   Serial.println(waarde);
   for(int sensor = 1; sensor <= 8; sensor++){
     SerialBT.print("Moisture: ");
-    SerialBT.print(waarde % sensor);
+    SerialBT.print(((int)waarde) % sensor);
     SerialBT.print('\n');
   }
   delay(1000);

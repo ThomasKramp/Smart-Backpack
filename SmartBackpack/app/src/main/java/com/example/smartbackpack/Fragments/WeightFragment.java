@@ -1,19 +1,32 @@
 package com.example.smartbackpack.Fragments;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.smartbackpack.MainActivity;
 import com.example.smartbackpack.R;
+
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.UUID;
 
 public class WeightFragment extends Fragment {
     private static final String TAG = "WeightFragment";
@@ -101,4 +114,5 @@ public class WeightFragment extends Fragment {
         else
             WeightMessage = "You're fine";
     }
+
 }

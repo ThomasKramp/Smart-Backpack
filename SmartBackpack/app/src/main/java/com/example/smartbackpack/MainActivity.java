@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         Context mContext;
 
         Runnable updater;
-        int delay = 10000; // 10 seconden
+        int delay = 5000; // 10 seconden
         final Handler timerHandler = new Handler();
 
         public BluetoothTask(Context context, BluetoothAdapter bluetoothAdapter, String MacAddress){
@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                         if (inputStream != null) {
                             try {
                                 // Wait for all bits to be send
-                                Thread.sleep(1000);
+                                Thread.sleep(2000);
                                 // Receive all send bits
                                 int availableBytes = inputStream.available();
                                 if (availableBytes == 0)

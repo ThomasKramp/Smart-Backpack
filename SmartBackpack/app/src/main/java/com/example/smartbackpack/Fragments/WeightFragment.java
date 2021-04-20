@@ -22,7 +22,6 @@ public class WeightFragment extends Fragment {
     EditText mUserWeightInput;
     TextView mMeasureData;
     TextView mWeightWarning;
-    TextView mShowValues;
 
     double userWeight = 100;     // Weight in kilogram
     double backPackWeight = 0;   // Weight in kilogram
@@ -38,7 +37,6 @@ public class WeightFragment extends Fragment {
         mUserWeightInput = view.findViewById(R.id.user_weight_input);
         mMeasureData = view.findViewById(R.id.measured_data);
         mWeightWarning = view.findViewById(R.id.weight_warning);
-        mShowValues = view.findViewById(R.id.view_data);
 
         view.findViewById(R.id.measure_weight_button);
         view.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +47,6 @@ public class WeightFragment extends Fragment {
                 CheckBackPackWeight();
                 mMeasureData.setText("Backpack Weight: " + backPackWeight + " kg");
                 mWeightWarning.setText(WeightMessage);
-                mShowValues.setText(MainActivity.ListToString(MainActivity.WeightData));
             }
         });
         return view;
@@ -67,6 +64,7 @@ public class WeightFragment extends Fragment {
 
     private void CalculateBackPackWeight(String weightData) {
         try {
+            mWeightWarning.setText("Stand still and wait 5 seconds.");
             Thread.sleep(5000);
             Toast.makeText(getContext(), "Stand still for measurements", Toast.LENGTH_LONG).show();
         } catch (InterruptedException e) {
@@ -91,8 +89,6 @@ public class WeightFragment extends Fragment {
 
     private void CheckBackPackWeight() {
         // Test values are being used
-        // Therefore the maximum is value (4096) will be reverted to 25 kilograms
-        backPackWeight = backPackWeight * 25.0 / 4096.0;
         backPackWeight = Math.round(backPackWeight * 100) / 100.0;  // 2 Decimals after comma
         if (backPackWeight >= userWeight * 0.20) {
             WeightMessage = "You're carrying too much!!!";

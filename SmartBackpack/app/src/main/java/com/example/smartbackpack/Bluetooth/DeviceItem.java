@@ -1,5 +1,7 @@
 package com.example.smartbackpack.Bluetooth;
 
+import java.util.List;
+
 public class DeviceItem {
     private String name;
     private String macAddress;
@@ -16,4 +18,11 @@ public class DeviceItem {
         this.name = name;
     }
     public void setMacAddress(String macAddress) { this.macAddress = macAddress; }
+
+    public boolean gotDevice(List<DeviceItem> devices){
+        for (DeviceItem device: devices) {
+            if (name.equals(device.getName()) && macAddress.equals(device.getMacAddress())) return true;
+        }
+        return false;
+    }
 }

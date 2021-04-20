@@ -1,4 +1,4 @@
-package com.example.smartbackpack;
+package com.example.smartbackpack.Fragments;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +17,7 @@ import com.example.smartbackpack.List.ItemActivity;
 import com.example.smartbackpack.List.ListAdapter;
 import com.example.smartbackpack.List.ListItem;
 import com.example.smartbackpack.List.ListItemListener;
+import com.example.smartbackpack.R;
 
 import java.util.ArrayList;
 
@@ -27,9 +28,7 @@ public class ListFragment extends Fragment implements ListItemListener {
     ListAdapter mListAdapter;
     RecyclerView mRecyclerView;
 
-    public ListFragment() {
-        // Required empty public constructor
-    }
+    public ListFragment() { /* Required empty public constructor */ }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

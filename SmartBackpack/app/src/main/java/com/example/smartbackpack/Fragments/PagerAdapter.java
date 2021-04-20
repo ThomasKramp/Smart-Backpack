@@ -1,4 +1,4 @@
-package com.example.smartbackpack;
+package com.example.smartbackpack.Fragments;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,7 +18,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return new HomeFragment();
+            case 0: return new BluetoothFragment();
             case 1: return new MoistureFragment();
             case 2: return new WeightFragment();
             case 3: return new ListFragment();

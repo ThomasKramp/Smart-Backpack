@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
-    tools:context=".Bluetooth.BluetoothFragment">
+    tools:context=".Fragments.BluetoothFragment">
 
     <TextView
         android:id="@+id/bluetooth_title"
@@ -74,55 +74,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/show_devices_button" />
 
-    <Button
-        android:id="@+id/BlueNot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="12dp"
-        android:text="Bluetooth"
-        app:layout_constraintEnd_toStartOf="@+id/ListNot"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/device_scroller" />
-
-    <Button
-        android:id="@+id/ListNot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="76dp"
-        android:layout_marginRight="76dp"
-        android:text="List"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/device_scroller" />
-
-    <Button
-        android:id="@+id/WeightNot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:text="Weight"
-        app:layout_constraintEnd_toStartOf="@+id/MoisNot"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BlueNot" />
-
-    <Button
-        android:id="@+id/MoisNot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="76dp"
-        android:layout_marginRight="76dp"
-        android:text="Moisture"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ListNot" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/device_scroller"
-        android:layout_width="377dp"
-        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/paired_devices_text">

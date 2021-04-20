@@ -1,4 +1,4 @@
-package com.example.smartbackpack;
+package com.example.smartbackpack.Fragments;
 
 import android.os.Bundle;
 
@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.smartbackpack.MainActivity;
+import com.example.smartbackpack.R;
 
 public class WeightFragment extends Fragment {
     private static final String TAG = "WeightFragment";
@@ -25,9 +28,7 @@ public class WeightFragment extends Fragment {
     double backPackWeight = 0;   // Weight in kilogram
     String WeightMessage = "";
 
-    public WeightFragment() {
-        // Required empty public constructor
-    }
+    public WeightFragment() { /* Required empty public constructor */ }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,7 +40,8 @@ public class WeightFragment extends Fragment {
         mWeightWarning = view.findViewById(R.id.weight_warning);
         mShowValues = view.findViewById(R.id.view_data);
 
-        view.findViewById(R.id.measure_weight_button).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.measure_weight_button);
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CheckUserWeightValidity();
@@ -64,6 +66,12 @@ public class WeightFragment extends Fragment {
     }
 
     private void CalculateBackPackWeight(String weightData) {
+        try {
+            Thread.sleep(5000);
+            Toast.makeText(getContext(), "Stand still for measurements", Toast.LENGTH_LONG).show();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (!weightData.isEmpty()){
             if (weightData.length() >= 4 + DATA_TAG.length()){
                 String[] separated = weightData.split(DATA_TAG);
@@ -86,9 +94,10 @@ public class WeightFragment extends Fragment {
         // Therefore the maximum is value (4096) will be reverted to 25 kilograms
         backPackWeight = backPackWeight * 25.0 / 4096.0;
         backPackWeight = Math.round(backPackWeight * 100) / 100.0;  // 2 Decimals after comma
-        if (backPackWeight >= userWeight * 0.20)
+        if (backPackWeight >= userWeight * 0.20) {
             WeightMessage = "You're carrying too much!!!";
-        else if (backPackWeight >= userWeight * 0.10)
+            MainActivity.sendNotification(getContext(), NotificationId.LIST);
+        } else if (backPackWeight >= userWeight * 0.10)
             WeightMessage = "It's going to be rough, but doable";
         else
             WeightMessage = "You're fine";

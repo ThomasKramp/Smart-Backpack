@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.example.smartbackpack.Fragments.BluetoothFragment;
+
 public class BluetoothReceiver extends BroadcastReceiver {
     private BluetoothReceiverListener listener;
 
@@ -23,25 +25,19 @@ public class BluetoothReceiver extends BroadcastReceiver {
             final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
             switch (state) {
                 case BluetoothAdapter.STATE_OFF:
-                    showToast(context, BluetoothFragment.BT_OFF_MESSAGE);
                     listener.updateBluetoothSwitch(false);
                     break;
                 case BluetoothAdapter.STATE_TURNING_OFF:
                     break;
                 case BluetoothAdapter.STATE_ON:
-                    showToast(context, BluetoothFragment.BT_ON_MESSAGE);
                     listener.updateBluetoothSwitch(true);
                     break;
                 case BluetoothAdapter.STATE_TURNING_ON:
                     break;
                 case BluetoothAdapter.ERROR:
-                    showToast(context, "An error has occurred");
+                    Toast.makeText(context, "An error has occurred", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
-    }
-
-    private void showToast(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 }

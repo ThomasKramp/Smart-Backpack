@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -13,14 +14,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.smartbackpack.Bluetooth.BluetoothFragment;
 import com.example.smartbackpack.Bluetooth.BluetoothReceiver;
 import com.example.smartbackpack.Bluetooth.BluetoothReceiverListener;
+import com.example.smartbackpack.Fragments.BluetoothFragment;
+import com.example.smartbackpack.Fragments.MoistureFragment;
+import com.example.smartbackpack.Fragments.NotificationId;
+import com.example.smartbackpack.Fragments.PagerAdapter;
+import com.example.smartbackpack.Fragments.WeightFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.DataInputStream;
@@ -43,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     private static final String PRIMARY_CHANNEL_ID = "primary_notification_channel";
     public static NotificationManager mNotifyManager;
     public static final int NOTIFICATION_ID = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
 
-
         // Setting a listener for clicks.
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -93,9 +98,9 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                     }
                 });
 
-        viewPager.setCurrentItem(getIntent().getIntExtra("position", 0));
+        Intent data = getIntent();
+        if (data != null) viewPager.setCurrentItem(data.getIntExtra("position", 0));
         createNotificationChannel();
-
     }
 
     @Override
@@ -111,75 +116,57 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         if (android.os.Build.VERSION.SDK_INT >=
                 android.os.Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(PRIMARY_CHANNEL_ID,
-                    "Mascot Notification", NotificationManager
-                    .IMPORTANCE_HIGH);
+                    "Backpack Problems", NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.RED);
             notificationChannel.enableVibration(true);
-            notificationChannel.setDescription("Notification from Mascot");
+            notificationChannel.setDescription("Backpack Problems");
             mNotifyManager.createNotificationChannel(notificationChannel);
         }
     }
-    public static NotificationCompat.Builder getNotificationBuilder(android.content.Context context, String id){
-        Intent notificationIntent = new Intent(context, MainActivity.class);
-        if (id == "Bluetooth"){
-            notificationIntent.putExtra("position", 0);
-        }
-        else if(id == "Weight"){
-            notificationIntent.putExtra("position", 2);
-        }
-        else if(id == "Moisture"){
-            notificationIntent.putExtra("position", 1);
-        }
-        else if(id == "List"){
-            notificationIntent.putExtra("position", 3);
-        }
 
+    public static NotificationCompat.Builder getNotificationBuilder(android.content.Context context,
+                                                                    NotificationId id){
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        NotificationCompat.Builder notifyBuilder =  new NotificationCompat
+                .Builder(context,PRIMARY_CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setAutoCancel(true);
+        switch (id) {
+            case BLUETOOTH:
+                notificationIntent.putExtra("position", 0);
+                notifyBuilder.setContentTitle("Connection Lost!")
+                        .setContentText("Lost the Bluetooth connection");
+                StopBluetoothTask();
+                break;
+            case MOISTURE:
+                notificationIntent.putExtra("position", 1);
+                notifyBuilder.setContentTitle("Wetness!!")
+                        .setContentText("There has been a leak!!");
+                break;
+            case WEIGHT:
+                // Made in case there is a need for a Weight notification
+                notificationIntent.putExtra("position", 2);
+                notifyBuilder.setContentTitle("Weight Exceeded!")
+                        .setContentText("The weight limit of your backpack has been exceeded");
+                break;
+            case LIST:
+                notificationIntent.putExtra("position", 3);
+                notifyBuilder.setContentTitle("Too Many Items")
+                        .setContentText("You're carrying too many items");
+                break;
+            default:
+                break;
+        }
         PendingIntent notificationPendingIntent = PendingIntent.getActivity(context, NOTIFICATION_ID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder notifyBuilder;
-        if (id == "Bluetooth"){
-            notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
-                    .setContentTitle("Connection Lost!")
-                    .setContentText("The connection to Bluetooth has been lost!")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setContentIntent(notificationPendingIntent)
-                    .setAutoCancel(true);
-        }
-        else if (id == "Weight"){
-            notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
-                    .setContentTitle("Weight Exceeded!")
-                    .setContentText("The weight limit of your backpack has been exceeded")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setContentIntent(notificationPendingIntent)
-                    .setAutoCancel(true);
-        }
-        else if (id == "List"){
-            notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
-                    .setContentTitle("Item Lost")
-                    .setContentText("You may have lost an item!")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setContentIntent(notificationPendingIntent)
-                    .setAutoCancel(true);
-        }
-        else if (id == "Moisture"){
-            notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
-                    .setContentTitle("Wetness!!")
-                    .setContentText("There has been a leak!!")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setContentIntent(notificationPendingIntent)
-                    .setAutoCancel(true);
-        }
-        else{
-            notifyBuilder =  new NotificationCompat.Builder(context,PRIMARY_CHANNEL_ID)
-                    .setContentTitle("You've been notified!")
-                    .setContentText("This is your notification text.")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setContentIntent(notificationPendingIntent)
-                    .setAutoCancel(true);
-        }
+        notifyBuilder.setContentIntent(notificationPendingIntent);
         return notifyBuilder;
     }
 
+    public static void sendNotification(Context context, NotificationId fragmentId){
+        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(context, fragmentId);
+        MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
+    }
 
     public static String ListToString(List<String> list){
         StringBuilder str = new StringBuilder();
@@ -197,29 +184,36 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
             BluetoothFragment.mBluetoothSwitch.setChecked(update);
     }
 
-    public static void StartBluetoothTask(BluetoothAdapter bluetoothAdapter, String MacAddress){
-        bluetoothTask = new MainActivity.BluetoothTask(bluetoothAdapter, MacAddress);
+    public static void StartBluetoothTask(Context context, BluetoothAdapter bluetoothAdapter, String MacAddress){
+        bluetoothTask = new MainActivity.BluetoothTask(context, bluetoothAdapter, MacAddress);
         bluetoothTask.execute();
+    }
+    public static void StopBluetoothTask(){
+        if (bluetoothTask != null)
+            bluetoothTask.cancel(true);
     }
 
     public static final class BluetoothTask extends AsyncTask<Void, Void, Void> {
-        private static final String DATA_TAG = "\n";
+        final String DATA_TAG = "\n";
         BluetoothSocket bluetoothSocket = null;
         InputStream inputStream = null;
+        Context mContext;
 
-        private Runnable updater;
-        private boolean stop = false;
-        private int delay = 1000; // 1 seconden
+        Runnable updater;
+        int delay = 10000; // 10 seconden
         final Handler timerHandler = new Handler();
 
-        public BluetoothTask(BluetoothAdapter bluetoothAdapter, String MacAddress){
+        public BluetoothTask(Context context, BluetoothAdapter bluetoothAdapter, String MacAddress){
+            mContext = context;
             try {
+                // Connect to remote device via bluetooth
                 BluetoothDevice btDevice = bluetoothAdapter.getRemoteDevice(MacAddress);
                 bluetoothSocket = btDevice.createInsecureRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
                 bluetoothSocket.connect();
                 inputStream = bluetoothSocket.getInputStream();
             } catch (IOException e) {
                 e.printStackTrace();
+                Toast.makeText(mContext, "Couldn't connect", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -231,13 +225,19 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                     try {
                         if (inputStream != null) {
                             try {
+                                // Wait for all bits to be send
                                 Thread.sleep(1000);
-                                //bluetoothSocket.connect();
+                                // Receive all send bits
                                 int availableBytes = inputStream.available();
+                                if (availableBytes == 0)
+                                    MainActivity.sendNotification(mContext, NotificationId.BLUETOOTH);
                                 byte[] buffer = new byte[availableBytes];
                                 DataInputStream input = new DataInputStream(inputStream);
+                                // Put all received bits into string format
                                 input.readFully(buffer, 0, buffer.length);
                                 String data = new String(buffer);
+                                Log.d(TAG, "getData: " + data);
+                                // Separate weight and moisture data
                                 String[] separated = data.split(DATA_TAG);
                                 MainActivity.WeightData = new ArrayList<>();
                                 MainActivity.MoistureData = new ArrayList<>();
@@ -249,14 +249,29 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                                     else if (dataString.contains(MoistureFragment.DATA_TAG))
                                         MoistureData.add(dataString);
                                 }
-                                Log.d(TAG, "getData: " + data);
-                                //bluetoothSocket.close();
-                            } catch (IOException e) { e.printStackTrace(); }
+                                // Continues moisture check
+                                for (Button sensor: MoistureFragment.Sensors)
+                                    MoistureFragment.CheckBackPackMoisture(sensor, MainActivity.MoistureData);
+                                // Send notification if moisture sensor is triggered
+                                if (MoistureFragment.TriggeredSensors){
+                                    MainActivity.sendNotification(mContext, NotificationId.MOISTURE);
+                                    MoistureFragment.TriggeredSensors = false;
+                                }
+                            } catch (IOException e) {
+                                // Send notification if bluetooth connection fails
+                                e.printStackTrace();
+                                MainActivity.sendNotification(mContext, NotificationId.BLUETOOTH);
+                            }
                         }
-                    } catch (Exception e) { e.printStackTrace(); }
+                    } catch (Exception e) {
+                        // Send notification if bluetooth connection fails
+                        e.printStackTrace();
+                        MainActivity.sendNotification(mContext, NotificationId.BLUETOOTH);
+                    }
                     Log.d(TAG, "getData: done");
-                    // Zet de timer
-                    if(!stop) timerHandler.postDelayed(updater, delay);
+                    // Sets the timer
+                    if(!isCancelled())
+                        timerHandler.postDelayed(updater, delay);
                 }
             };
             timerHandler.post(updater);
@@ -268,7 +283,6 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
             super.onCancelled();
             try { bluetoothSocket.close();
             } catch (IOException e) { e.printStackTrace(); }
-            stop = true;
             timerHandler.removeCallbacksAndMessages(null);
         }
     }

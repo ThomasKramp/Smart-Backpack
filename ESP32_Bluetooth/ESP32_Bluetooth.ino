@@ -22,6 +22,7 @@ void loop() {
   SerialBT.print("Weight: ");
   SerialBT.print(waarde);
   SerialBT.print('\n');
+  Serial.println(waarde);
   for(int sensor = 1; sensor <= 8; sensor++){
     SerialBT.print("Moisture: ");
     SerialBT.print(waarde % sensor);

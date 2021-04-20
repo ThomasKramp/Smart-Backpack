@@ -1,8 +1,7 @@
-package com.example.smartbackpack.Bluetooth;
+package com.example.smartbackpack.Fragments;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,21 +21,17 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.smartbackpack.ListFragment;
+import com.example.smartbackpack.Bluetooth.DeviceAdapter;
+import com.example.smartbackpack.Bluetooth.DeviceItem;
+import com.example.smartbackpack.Bluetooth.DeviceItemListener;
 import com.example.smartbackpack.MainActivity;
 import com.example.smartbackpack.R;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.UUID;
 
-public class BluetoothFragment extends Fragment implements DeviceItemListener{
+public class BluetoothFragment extends Fragment implements DeviceItemListener {
     private static final String TAG = "BluetoothFragment";
-    public static final String BT_ON_MESSAGE = "Bluetooth enabled";
-    public static final String BT_OFF_MESSAGE = "Bluetooth disabled";
 
     private BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private Set<BluetoothDevice> pairedDevices;
@@ -51,10 +46,7 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener{
     RecyclerView mRecyclerView;
     public DeviceItem selectedDevice;
 
-    private Button BlueNoty;
-    private Button ListNoty;
-    private Button WeightNoty;
-    private Button MoistNoty;
+    public BluetoothFragment() { /* Required empty public constructor */ }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,11 +64,13 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Creates device list
         mRecyclerView = view.findViewById(R.id.device_scroller);
         mDeviceAdapter = new DeviceAdapter(getContext(), devices, this);
         mRecyclerView.setAdapter(mDeviceAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // Binds widgets
         mShowDevicesButton = view.findViewById(R.id.show_devices_button);
         mConnectButton = view.findViewById(R.id.connect_button);
         mPairedDeviceText = view.findViewById(R.id.paired_devices_text);
@@ -88,21 +82,21 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener{
         mShowDevicesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pairedDevices = mBluetoothAdapter.getBondedDevices();
-                if (pairedDevices.size() > 0) {
-                    Log.d(TAG, "start getting paired devices!");
-                    for (BluetoothDevice device: pairedDevices) {
-                        DeviceItem deviceItem = new DeviceItem(device.getName(), device.getAddress());
-                        if (!devices.contains(deviceItem)){
-                            devices.add(deviceItem);
-                            Log.d(TAG, "Name: " + deviceItem.getName() + ", MAC Address: " + deviceItem.getMacAddress());
+                if (mBluetoothSwitch.isEnabled()){
+                    pairedDevices = mBluetoothAdapter.getBondedDevices();
+                    if (pairedDevices.size() > 0) {
+                        Log.d(TAG, "start getting paired devices!");
+                        for (BluetoothDevice device: pairedDevices) {
+                            DeviceItem deviceItem = new DeviceItem(device.getName(), device.getAddress());
+                            if (!deviceItem.gotDevice(devices)){
+                                devices.add(deviceItem);
+                                Log.d(TAG, "onClick: Name: " + deviceItem.getName() + ", MAC Address: " + deviceItem.getMacAddress());
+                            }
                         }
-                    }
+                        Log.d(TAG, "onClick: Showing paired devices");
+                    } else Toast.makeText(getActivity(), "No paired devices", Toast.LENGTH_SHORT).show();
                     mDeviceAdapter.notifyDataSetChanged();
-                    Toast.makeText(getActivity(), "Showing paired devices", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), "No paired devices", Toast.LENGTH_SHORT).show();
-                }
+                } else Log.d(TAG, "onClick: Bluetooth is of");
             }
         });
 
@@ -111,65 +105,18 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener{
             @Override
             public void onClick(View v) {
                 if (selectedDevice != null){
-                    MainActivity.StartBluetoothTask(mBluetoothAdapter, selectedDevice.getMacAddress());
+                    MainActivity.StartBluetoothTask(getContext(), mBluetoothAdapter, selectedDevice.getMacAddress());
                     Log.d(TAG, "Connect to " + selectedDevice.getName());
                     Log.d(TAG, "Address: " + selectedDevice.getMacAddress());
                 } else Toast.makeText(getActivity(), "No device selected", Toast.LENGTH_SHORT).show();
             }
         });
-
-        BlueNoty = view.findViewById(R.id.BlueNot);
-        BlueNoty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendBlueNot();
-            }
-        });
-        ListNoty = view.findViewById(R.id.ListNot);
-        ListNoty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendListNot();
-            }
-        });
-        WeightNoty = view.findViewById(R.id.WeightNot);
-        WeightNoty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendWeightNot();
-            }
-        });
-        MoistNoty = view.findViewById(R.id.MoisNot);
-        MoistNoty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendMoistNot();
-            }
-        });
-    }
-
-    public void sendBlueNot(){
-        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(getContext(), "Bluetooth");
-        MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
-    }
-    public void sendListNot(){
-        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(getContext(), "List");
-        MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
-    }
-    public void sendWeightNot(){
-        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(getContext(), "Weight");
-        MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
-    }
-    public void sendMoistNot(){
-        NotificationCompat.Builder notifyBuilder = MainActivity.getNotificationBuilder(getContext(), "Moisture");
-        MainActivity.mNotifyManager.notify(MainActivity.NOTIFICATION_ID, notifyBuilder.build());
     }
 
     private void checkToggle() {
         if (mBluetoothAdapter != null) {
             if (mBluetoothAdapter.isEnabled()) {
                 mBluetoothSwitch.setChecked(true);
-                Toast.makeText(getActivity(), BT_ON_MESSAGE, Toast.LENGTH_SHORT).show();
                 enableOptions(View.VISIBLE);
             } else {
                 mBluetoothSwitch.setChecked(false);
@@ -184,11 +131,9 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener{
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     mBluetoothAdapter.enable();
-                    Toast.makeText(getActivity(), BT_ON_MESSAGE, Toast.LENGTH_SHORT).show();
                     enableOptions(View.VISIBLE);
                 } else {
                     mBluetoothAdapter.disable();
-                    Toast.makeText(getActivity(), BT_OFF_MESSAGE, Toast.LENGTH_SHORT).show();
                     enableOptions(View.INVISIBLE);
                 }
             }

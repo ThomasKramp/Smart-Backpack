@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         Context mContext;
 
         Runnable updater;
-        int delay = 5000; // 10 seconden
+        int delay = 1000 * 60 * 5; // 10 seconden
         final Handler timerHandler = new Handler();
 
         public BluetoothTask(Context context, BluetoothAdapter bluetoothAdapter, String MacAddress){

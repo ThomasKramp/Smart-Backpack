@@ -21,7 +21,6 @@
     <string name="pre_set_items_text">Pre-set Items:</string>
     <string-array name="pre_set_items">
         <item> </item>
-        <item>Monke</item>
         <item>Pants</item>
         <item>Underwear</item>
         <item>Water</item>

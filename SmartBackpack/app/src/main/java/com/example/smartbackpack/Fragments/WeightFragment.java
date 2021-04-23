@@ -1,5 +1,6 @@
 package com.example.smartbackpack.Fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -22,11 +23,13 @@ public class WeightFragment extends Fragment {
     EditText mUserWeightInput;
     TextView mMeasureData;
     TextView mWeightWarning;
-    TextView mShowValues;
 
-    double userWeight = 100;     // Weight in kilogram
-    double backPackWeight = 0;   // Weight in kilogram
-    String WeightMessage = "";
+    public double userWeight = 100;     // Weight in kilogram
+    public double backPackWeight = 0;   // Weight in kilogram
+    public String WeightMessage = "";
+
+    WeightTask weightTask;
+    public Boolean TaskIsRunning = false;
 
     public WeightFragment() { /* Required empty public constructor */ }
 
@@ -38,18 +41,19 @@ public class WeightFragment extends Fragment {
         mUserWeightInput = view.findViewById(R.id.user_weight_input);
         mMeasureData = view.findViewById(R.id.measured_data);
         mWeightWarning = view.findViewById(R.id.weight_warning);
-        mShowValues = view.findViewById(R.id.view_data);
 
         view.findViewById(R.id.measure_weight_button);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheckUserWeightValidity();
-                CalculateBackPackWeight(MainActivity.ListToString(MainActivity.WeightData));
-                CheckBackPackWeight();
-                mMeasureData.setText("Backpack Weight: " + backPackWeight + " kg");
-                mWeightWarning.setText(WeightMessage);
-                mShowValues.setText(MainActivity.ListToString(MainActivity.WeightData));
+                if (MainActivity.BluetoothConnected){
+                    CheckUserWeightValidity();
+                    if (!TaskIsRunning) {
+                        weightTask = new WeightTask();
+                        weightTask.execute();
+                    }
+                } else
+                    mWeightWarning.setText("There is no Bluetooth Connection");
             }
         });
         return view;
@@ -65,41 +69,64 @@ public class WeightFragment extends Fragment {
         Log.d(TAG, "CheckUserWeightValidity: User Weight is" + userWeight);
     }
 
-    private void CalculateBackPackWeight(String weightData) {
-        try {
-            Thread.sleep(5000);
-            Toast.makeText(getContext(), "Stand still for measurements", Toast.LENGTH_LONG).show();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if (!weightData.isEmpty()){
-            if (weightData.length() >= 4 + DATA_TAG.length()){
-                String[] separated = weightData.split(DATA_TAG);
-                if (separated.length > 1) {
-                    backPackWeight = 0;
-                    for (String weightString: separated){
-                        Log.d(TAG, "CheckBackPackWeight: Values: " + weightString);
-                        if (weightString.isEmpty()) continue;
-                        backPackWeight += Double.parseDouble(weightString);
-                    }
-                    backPackWeight /= separated.length - 1.0; // First Value is always " ";
-                }
-                Log.d(TAG, "CheckBackPackWeight: Backpack Weight: " + backPackWeight);
-            }
-        } else Log.d(TAG, "CheckBackPackWeight: No Data Received");
-    }
+    private final class WeightTask extends AsyncTask<Void, Void, Void> {
 
-    private void CheckBackPackWeight() {
-        // Test values are being used
-        // Therefore the maximum is value (4096) will be reverted to 25 kilograms
-        backPackWeight = backPackWeight * 25.0 / 4096.0;
-        backPackWeight = Math.round(backPackWeight * 100) / 100.0;  // 2 Decimals after comma
-        if (backPackWeight >= userWeight * 0.20) {
-            WeightMessage = "You're carrying too much!!!";
-            MainActivity.sendNotification(getContext(), NotificationId.LIST);
-        } else if (backPackWeight >= userWeight * 0.10)
-            WeightMessage = "It's going to be rough, but doable";
-        else
-            WeightMessage = "You're fine";
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            TaskIsRunning = true;
+            mWeightWarning.setText("Stand still and wait 5 seconds.");
+            Toast.makeText(getContext(), "Stand still for measurements", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            CalculateBackPackWeight(MainActivity.ListToString(MainActivity.WeightData));
+            CheckBackPackWeight();
+            mMeasureData.setText("Backpack Weight: " + backPackWeight + " kg");
+            WeightFragment.this.mWeightWarning.setText(WeightMessage);
+            TaskIsRunning = false;
+        }
+
+        private void CalculateBackPackWeight(String weightData) {
+            if (!weightData.isEmpty()){
+                if (weightData.length() >= 4 + DATA_TAG.length()){
+                    String[] separated = weightData.split(DATA_TAG);
+                    if (separated.length > 1) {
+                        backPackWeight = 0;
+                        for (String weightString: separated){
+                            Log.d(TAG, "CheckBackPackWeight: Values: " + weightString);
+                            if (weightString.isEmpty()) continue;
+                            backPackWeight += Double.parseDouble(weightString);
+                        }
+                        backPackWeight /= separated.length - 1.0; // First Value is always " ";
+                    }
+                    Log.d(TAG, "CheckBackPackWeight: Backpack Weight: " + backPackWeight);
+                }
+            } else Log.d(TAG, "CheckBackPackWeight: No Data Received");
+        }
+
+        private void CheckBackPackWeight() {
+            // Test values are being used
+            backPackWeight = Math.round(backPackWeight * 100) / 100.0;  // 2 Decimals after comma
+            if (backPackWeight >= userWeight * 0.20) {
+                WeightMessage = "You're carrying too much!!!";
+                MainActivity.sendNotification(getContext(), NotificationId.LIST);
+            } else if (backPackWeight >= userWeight * 0.10)
+                WeightMessage = "It's going to be rough, but doable";
+            else
+                WeightMessage = "You're fine";
+        }
     }
 }

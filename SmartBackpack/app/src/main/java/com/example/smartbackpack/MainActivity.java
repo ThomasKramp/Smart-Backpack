@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     private static BluetoothTask bluetoothTask;
     public static List<String> WeightData;
     public static List<String> MoistureData;
+    public static Boolean BluetoothConnected = false;
     ViewPager viewPager;
     int currentTabIndex;
 
@@ -200,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
         Context mContext;
 
         Runnable updater;
-        int delay = 10000; // 10 seconden
+        int delay = 1000 * 60 * 5; // 10 seconden
         final Handler timerHandler = new Handler();
 
         public BluetoothTask(Context context, BluetoothAdapter bluetoothAdapter, String MacAddress){
@@ -226,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                         if (inputStream != null) {
                             try {
                                 // Wait for all bits to be send
-                                Thread.sleep(1000);
+                                Thread.sleep(2000);
                                 // Receive all send bits
                                 int availableBytes = inputStream.available();
                                 if (availableBytes == 0)
@@ -249,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                                     else if (dataString.contains(MoistureFragment.DATA_TAG))
                                         MoistureData.add(dataString);
                                 }
+                                MainActivity.BluetoothConnected = true;
                                 // Continues moisture check
                                 for (Button sensor: MoistureFragment.Sensors)
                                     MoistureFragment.CheckBackPackMoisture(sensor, MainActivity.MoistureData);
@@ -283,6 +285,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
             super.onCancelled();
             try { bluetoothSocket.close();
             } catch (IOException e) { e.printStackTrace(); }
+            MainActivity.BluetoothConnected = false;
             timerHandler.removeCallbacksAndMessages(null);
         }
     }

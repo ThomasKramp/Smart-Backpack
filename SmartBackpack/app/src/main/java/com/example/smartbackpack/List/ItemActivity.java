@@ -136,9 +136,13 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
         if (!item.isEmpty() && item != null){
             int itemId = this.getResources().getIdentifier(item.toLowerCase(), "drawable", this.getPackageName());
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), itemId);
-            float multiplier = 0.0f;
-            if (bitmap.getWidth() >= 2500 || bitmap.getHeight() >= 2500) multiplier = 0.1f;
-            else multiplier = 0.25f;
+            float multiplier = 1.0f;
+            Boolean bitmapToBig = true;
+            while (bitmapToBig) {
+                if (bitmap.getWidth() * multiplier > 250 || bitmap.getHeight() * multiplier > 250)
+                    multiplier -= 0.01;
+                else bitmapToBig = false;
+            }
             vImage = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * multiplier), (int) (bitmap.getHeight() * multiplier), false);
             mImageHolder.setImageBitmap(vImage);
         } else {

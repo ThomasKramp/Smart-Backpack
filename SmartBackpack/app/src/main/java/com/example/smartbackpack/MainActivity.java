@@ -28,6 +28,7 @@ import com.example.smartbackpack.Fragments.MoistureFragment;
 import com.example.smartbackpack.Fragments.NotificationId;
 import com.example.smartbackpack.Fragments.PagerAdapter;
 import com.example.smartbackpack.Fragments.WeightFragment;
+import com.example.smartbackpack.List.ListItem;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.DataInputStream;

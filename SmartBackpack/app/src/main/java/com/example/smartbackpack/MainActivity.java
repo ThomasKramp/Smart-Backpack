@@ -28,6 +28,7 @@ import com.example.smartbackpack.Fragments.MoistureFragment;
 import com.example.smartbackpack.Fragments.NotificationId;
 import com.example.smartbackpack.Fragments.PagerAdapter;
 import com.example.smartbackpack.Fragments.WeightFragment;
+import com.example.smartbackpack.List.ListItem;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.DataInputStream;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     public static Boolean BluetoothConnected = false;
     ViewPager viewPager;
     int currentTabIndex;
+
+    public static ArrayList<ListItem> items = new ArrayList<>();
 
     private static final String PRIMARY_CHANNEL_ID = "primary_notification_channel";
     public static NotificationManager mNotifyManager;

@@ -76,7 +76,23 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener {
         mPairedDeviceText = view.findViewById(R.id.paired_devices_text);
 
         mBluetoothSwitch = view.findViewById(R.id.bluetooth_switch);
-        checkToggle();
+
+        if (MainActivity.currentTabIndex == 0)
+            checkToggle();
+
+        // If user toggles the bt switch
+        mBluetoothSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mBluetoothAdapter.enable();
+                    enableOptions(View.VISIBLE);
+                } else {
+                    mBluetoothAdapter.disable();
+                    enableOptions(View.INVISIBLE);
+                }
+            }
+        });
 
         // Get Devices
         mShowDevicesButton.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +129,7 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener {
         });
     }
 
-    private void checkToggle() {
+    public void checkToggle() {
         if (mBluetoothAdapter != null) {
             if (mBluetoothAdapter.isEnabled()) {
                 mBluetoothSwitch.setChecked(true);
@@ -125,20 +141,6 @@ public class BluetoothFragment extends Fragment implements DeviceItemListener {
         } else {
             Toast.makeText(getActivity(), "Device does not support bluetooth", Toast.LENGTH_SHORT).show();
         }
-        // If user toggles the bt switch
-        mBluetoothSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mBluetoothAdapter.enable();
-                    enableOptions(View.VISIBLE);
-                } else {
-                    mBluetoothAdapter.disable();
-                    enableOptions(View.INVISIBLE);
-                }
-            }
-        });
-
     }
 
     private void enableOptions(int visibility) {

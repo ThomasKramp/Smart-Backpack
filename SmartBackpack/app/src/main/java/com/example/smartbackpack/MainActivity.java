@@ -46,7 +46,10 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     public static List<String> MoistureData;
     public static Boolean BluetoothConnected = false;
     ViewPager viewPager;
-    int currentTabIndex;
+    public static int currentTabIndex;
+
+    public static ArrayList<ListItem> items = new ArrayList<>();
+    private BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
     private static final String PRIMARY_CHANNEL_ID = "primary_notification_channel";
     public static NotificationManager mNotifyManager;
@@ -88,6 +91,13 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
                         viewPager.setCurrentItem(tab.getPosition());
                         currentTabIndex = tab.getPosition();
                         Log.d(TAG, String.valueOf(currentTabIndex));
+                        if (currentTabIndex == 0) {
+                            // Update UI
+                            if (mBluetoothAdapter.isEnabled())
+                                BluetoothFragment.mBluetoothSwitch.setChecked(true);
+                            else
+                                BluetoothFragment.mBluetoothSwitch.setChecked(false);
+                        }
                     }
 
                     @Override

@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements BluetoothReceiver
     public static ArrayList<ListItem> items = new ArrayList<>();
     private BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
+    public static ArrayList<ListItem> items = new ArrayList<>();
+
     private static final String PRIMARY_CHANNEL_ID = "primary_notification_channel";
     public static NotificationManager mNotifyManager;
     public static final int NOTIFICATION_ID = 0;

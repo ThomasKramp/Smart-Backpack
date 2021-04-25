@@ -17,6 +17,7 @@ import com.example.smartbackpack.List.ItemActivity;
 import com.example.smartbackpack.List.ListAdapter;
 import com.example.smartbackpack.List.ListItem;
 import com.example.smartbackpack.List.ListItemListener;
+import com.example.smartbackpack.MainActivity;
 import com.example.smartbackpack.R;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 public class ListFragment extends Fragment implements ListItemListener {
     public static final int TEXT_REQUEST = 1;
 
-    ArrayList<ListItem> items = new ArrayList<>();
+    ArrayList<ListItem> items = MainActivity.items;
     ListAdapter mListAdapter;
     RecyclerView mRecyclerView;
 
@@ -35,10 +36,12 @@ public class ListFragment extends Fragment implements ListItemListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
-        items.add(new ListItem(null, "Lorem Lorem", 3));
-        items.add(new ListItem(null, "Lorem Ipsum", 7));
-        items.add(new ListItem(null, "Ipsum Ipsum", 8));
-
+        if (items.isEmpty()) {
+            items.add(new ListItem(null, "Lorem Lorem", 3));
+            items.add(new ListItem(null, "Lorem Ipsum", 7));
+            items.add(new ListItem(null, "Ipsum Ipsum", 8));
+        }
+        
         mRecyclerView = view.findViewById(R.id.list_scroller);
         mListAdapter = new ListAdapter(getContext(), items, this);
         mRecyclerView.setAdapter(mListAdapter);

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MoistureActivity">
+    android:background="@color/colorAccent"
+    tools:context=".Fragments.MoistureFragment">
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/moistureGrid"
@@ -18,66 +19,59 @@
 
         <Button
             android:id="@+id/moistureSensor1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/moisture_sensor"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1" />
+            app:layout_rowWeight="1"
+            style="@style/ButtonVivid" />
 
         <Button
             android:id="@+id/moistureSensor2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/moisture_sensor"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1" />
+            app:layout_rowWeight="1"
+            style="@style/ButtonVivid"/>
 
         <Button
             android:id="@+id/moistureSensor3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/moisture_sensor"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1" />
+            app:layout_rowWeight="1"
+            style="@style/ButtonVivid"/>
 
         <Button
             android:id="@+id/moistureSensor4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/moisture_sensor"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1" />
+            app:layout_rowWeight="1"
+            style="@style/ButtonVivid"/>
 
         <Button
             android:id="@+id/moistureSensor5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/moisture_sensor"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1" />
+            app:layout_rowWeight="1"
+            style="@style/ButtonVivid"/>
 
         <Button
             android:id="@+id/moistureSensor6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/moisture_sensor"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1" />
+            app:layout_rowWeight="1"
+            style="@style/ButtonVivid"/>
 
         <Button
             android:id="@+id/moistureSensor7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/moisture_sensor"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1" />
+            app:layout_rowWeight="1"
+            style="@style/ButtonVivid"/>
 
         <Button
             android:id="@+id/moistureSensor8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/moisture_sensor"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1" />
+            app:layout_rowWeight="1"
+            style="@style/ButtonVivid"/>
+
     </androidx.gridlayout.widget.GridLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

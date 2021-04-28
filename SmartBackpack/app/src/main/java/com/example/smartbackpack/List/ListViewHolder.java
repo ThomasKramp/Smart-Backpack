@@ -9,16 +9,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartbackpack.R;
 
-public class ListViewHolder extends RecyclerView.ViewHolder {
+public class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     TextView mNameView;
     TextView mAmountView;
     ImageView mImageView;
+    ImageView mDeleteImage;
+    ListItemListener mListItemListener;
 
-    public ListViewHolder(@NonNull View itemView) {
+    public ListViewHolder(@NonNull View itemView, ListItemListener listItemListener) {
         super(itemView);
+
+        mListItemListener = listItemListener;
+        itemView.setOnClickListener(this);
+
         mNameView = itemView.findViewById(R.id.list_item_name);
         mAmountView = itemView.findViewById(R.id.list_item_amount);
         mImageView = itemView.findViewById(R.id.list_item_image);
+
+        mDeleteImage = itemView.findViewById(R.id.delete_item_image);
+        mDeleteImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { mListItemListener.onDeleteClick(getLayoutPosition()); }
+        });
     }
+
+    @Override
+    public void onClick(View v) { mListItemListener.onItemClick(getLayoutPosition()); }
 }
